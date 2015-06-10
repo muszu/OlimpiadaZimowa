@@ -15,6 +15,7 @@ CREATE TABLE obiekty (
 	id                   integer  NOT NULL,
 	nazwa                varchar(30)  ,
 	typ                  varchar(30)  ,
+	miasto               varchar(30)  ,
 	adres                varchar(50)  ,
 	CONSTRAINT pk_obiekty PRIMARY KEY ( id )
  );

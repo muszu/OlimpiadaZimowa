@@ -172,7 +172,6 @@
 			<column name="nazwa" type="varchar" length="30" jt="12" />
 			<column name="typ" type="varchar" length="30" jt="12" />
 			<column name="adres" type="varchar" length="50" jt="12" />
-			<column name="miasto" type="varchar" length="30" jt="12" mandatory="y" />
 			<index name="pk_obiekty" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -328,6 +327,7 @@
 	</schema>
 	<layout id="Layout_16842443" name="Winter Olympics" show_relation_columns="y" >
 		<entity schema="winter olympics" name="doping" color="c0d4f3" x="60" y="225" />
+		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="60" y="645" />
 		<entity schema="winter olympics" name="panstwa" color="c0d4f3" x="60" y="135" />
 		<entity schema="winter olympics" name="fazy" color="c0d4f3" x="720" y="660" />
 		<entity schema="winter olympics" name="sedziowie_rozgrywki" color="c0d4f3" x="225" y="690" />
@@ -346,7 +346,6 @@
 		<entity schema="winter olympics" name="hokej" color="c0d4f3" x="825" y="315" />
 		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="825" y="420" />
 		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="825" y="540" />
-		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="60" y="645" />
 		<script name="Sql" id="SQL_56ec2cd" >
 			<string><![CDATA[CREATE SCHEMA "winter olympics";
 
