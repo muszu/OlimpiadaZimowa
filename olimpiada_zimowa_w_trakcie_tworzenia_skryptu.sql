@@ -1,3 +1,31 @@
+DO $$DECLARE r record;
+    BEGIN
+        FOR r IN SELECT table_name,constraint_name
+                 FROM information_schema.constraint_table_usage
+                 WHERE table_name IN ('fazy', 'kategorie', 'obiekty', 'panstwa', 'sedziowie', 'dyscypliny', 'rozgrywki', 'sedziowie_dyscypliny',
+				 'sedziowie_rozgrywki', 'druzyny', 'dyscypliny_medale_zes', 'dyscypliny_medalisci_ind', 'hokej', 'zawodnicy', 'zawodnicy_druzyny', 
+				 'zawodnicy_dyscypliny', 'biegi_narciarskie', 'skoki_narciarskie', 'lyzwiarstwo_szybkie', 'doping')
+        LOOP
+			EXECUTE 'ALTER TABLE IF EXISTS ' || quote_ident(r.table_name)|| ' DROP CONSTRAINT '|| quote_ident(r.constraint_name) || ';';
+        END LOOP;
+    END$$;
+	
+DO $$DECLARE r record;
+    BEGIN
+        FOR r IN SELECT table_name
+                 FROM information_schema.tables
+                 WHERE table_name IN ('fazy', 'kategorie', 'obiekty', 'panstwa', 'sedziowie', 'dyscypliny', 'rozgrywki', 'sedziowie_dyscypliny',
+				 'sedziowie_rozgrywki', 'druzyny', 'dyscypliny_medale_zes', 'dyscypliny_medalisci_ind', 'hokej', 'zawodnicy', 'zawodnicy_druzyny', 
+				 'zawodnicy_dyscypliny', 'biegi_narciarskie', 'skoki_narciarskie', 'lyzwiarstwo_szybkie', 'doping')
+        LOOP
+			EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.table_name)|| ' CASCADE;';
+        END LOOP;
+    END$$;
+	
+SELECT table_name
+  FROM information_schema.tables
+ WHERE table_schema='public';
+	
 DROP TABLE IF EXISTS fazy  CASCADE;
 DROP TABLE IF EXISTS kategorie  CASCADE;
 DROP TABLE IF EXISTS obiekty  CASCADE;
@@ -18,6 +46,7 @@ DROP TABLE IF EXISTS biegi_narciarskie  CASCADE;
 DROP TABLE IF EXISTS skoki_narciarskie  CASCADE;
 DROP TABLE IF EXISTS lyzwiarstwo_szybkie  CASCADE;
 DROP TABLE IF EXISTS doping  CASCADE;
+
 
 CREATE TABLE fazy ( 
 	id                   integer  NOT NULL,
@@ -60,8 +89,6 @@ CREATE TABLE dyscypliny (
 	CONSTRAINT pk_dyscypliny PRIMARY KEY ( id )
  );
 
-CREATE INDEX idx_dyscypliny ON dyscypliny ( id_kategorii );
-
 CREATE TABLE rozgrywki ( 
 	id_rozgrywki         integer  NOT NULL,
 	id_dyscypliny        integer  ,
@@ -71,29 +98,15 @@ CREATE TABLE rozgrywki (
 	CONSTRAINT pk_rozgrywki PRIMARY KEY ( id_rozgrywki )
  );
 
-CREATE INDEX idx_rozgrywki_0 ON rozgrywki ( id_obiektu );
-
-CREATE INDEX idx_rozgrywki_1 ON rozgrywki ( id_dyscypliny );
-
-CREATE INDEX idx_rozgrywki ON rozgrywki ( id_fazy );
-
 CREATE TABLE sedziowie_dyscypliny ( 
 	id_sedziego          integer  ,
 	id_dyscypliny        integer  
  );
 
-CREATE INDEX idx_sedziowie_dyscypliny ON sedziowie_dyscypliny ( id_sedziego );
-
-CREATE INDEX idx_sedziowie_dyscypliny_0 ON sedziowie_dyscypliny ( id_dyscypliny );
-
 CREATE TABLE sedziowie_rozgrywki ( 
 	id_rozgrywki         integer  NOT NULL,
 	id_sedziego          integer  NOT NULL
  );
-
-CREATE INDEX idx_sedziowie_rozgrywki ON sedziowie_rozgrywki ( id_rozgrywki );
-
-CREATE INDEX idx_sedziowie_rozgrywki_0 ON sedziowie_rozgrywki ( id_sedziego );
 
 CREATE TABLE druzyny ( 
 	id                   integer  NOT NULL,
@@ -103,20 +116,12 @@ CREATE TABLE druzyny (
 	CONSTRAINT pk_druzyny PRIMARY KEY ( id )
  );
 
-CREATE INDEX idx_druzyny ON druzyny ( id_dyscypliny );
-
-CREATE INDEX idx_druzyny_0 ON druzyny ( id_kraju );
-
 CREATE TABLE dyscypliny_medale_zes ( 
 	id_dyscypliny        integer  NOT NULL,
 	id_druzyny           integer  NOT NULL,
 	medal                integer  NOT NULL,
 	CONSTRAINT idx_dyscypliny_medale_zes PRIMARY KEY ( id_dyscypliny, id_druzyny )
  );
-
-CREATE INDEX idx_dyscypliny_medale_zes_0 ON dyscypliny_medale_zes ( id_dyscypliny );
-
-CREATE INDEX idx_dyscypliny_medale_zes_1 ON dyscypliny_medale_zes ( id_druzyny );
 
 CREATE TABLE hokej ( 
 	id_panstwa           integer  ,
@@ -125,17 +130,12 @@ CREATE TABLE hokej (
 	status               varchar(3) DEFAULT 'OK' NOT NULL
  );
 
-CREATE INDEX idx_hokej ON hokej ( id_panstwa );
-
-CREATE INDEX idx_hokej_0 ON hokej ( id_rozgrywki );
-
 CREATE TABLE zawodnicy_druzyny ( 
 	id_druzyny           integer  NOT NULL,
 	id_zawodnika         integer  NOT NULL,
 	CONSTRAINT pk_zawodnicy_druzyny UNIQUE ( id_zawodnika ) 
  );
 
-CREATE INDEX idx_zawodnicy_druzyny ON zawodnicy_druzyny ( id_druzyny );
 
 CREATE TABLE zawodnicy ( 
 	id                   integer  NOT NULL,
@@ -149,16 +149,12 @@ CREATE TABLE zawodnicy (
 
 ALTER TABLE zawodnicy ADD CONSTRAINT ck_plec CHECK ( plec IN ('M','F') );
 
-CREATE INDEX idx_zawodnicy ON zawodnicy ( id_panstwa );
-
 CREATE TABLE zawodnicy_dyscypliny ( 
 	id_zawodnika         integer  ,
 	id_dyscypliny        integer  NOT NULL
  );
 
-CREATE INDEX idx_zawodnicy_dyscypliny ON zawodnicy_dyscypliny ( id_zawodnika );
-
-CREATE INDEX idx_zawodnicy_dyscypliny_0 ON zawodnicy_dyscypliny ( id_dyscypliny );
+scypliny_0 ON zawodnicy_dyscypliny ( id_dyscypliny );
 
 CREATE TABLE biegi_narciarskie ( 
 	id_zawodnika         integer  ,
@@ -166,20 +162,14 @@ CREATE TABLE biegi_narciarskie (
 	czas                 numeric  ,
 	status               varchar(3) DEFAULT 'OK' NOT NULL
  );
-
-ALTER TABLE biegi_narciarskie ADD CONSTRAINT ck_0 CHECK ( status IN ('OK','DNS','DNF','DSQ') );
-
-CREATE INDEX idx_biegi_narciarskie ON biegi_narciarskie ( id_zawodnika );
-
-CREATE INDEX idx_biegi_narciarskie_0 ON biegi_narciarskie ( id_rozgrywki );
+ 
+ ALTER TABLE biegi_narciarskie ADD CONSTRAINT ck_0 CHECK ( status IN ('OK','DNS','DNF','DSQ') );
 
 CREATE TABLE doping ( 
 	id_zawodnika         integer  ,
 	data_pobrania        date  ,
 	wynik                bool  
  );
-
-CREATE INDEX idx_doping ON doping ( id_zawodnika );
 
 CREATE TABLE dyscypliny_medalisci_ind ( 
 	id_dyscypliny        integer  NOT NULL,
@@ -188,20 +178,12 @@ CREATE TABLE dyscypliny_medalisci_ind (
 	CONSTRAINT idx_dyscypliny_medalisci_ind PRIMARY KEY ( id_dyscypliny, id_zawodnika )
  );
 
-CREATE INDEX idx_dyscypliny_medalisci_ind_0 ON dyscypliny_medalisci_ind ( id_dyscypliny );
-
-CREATE INDEX idx_dyscypliny_medalisci_ind_1 ON dyscypliny_medalisci_ind ( id_zawodnika );
-
 CREATE TABLE lyzwiarstwo_szybkie ( 
 	id_zawodnika         integer  ,
 	id_rozgrywki         integer  ,
 	czas                 numeric  ,
 	status               char(1) DEFAULT 'OK' NOT NULL
  );
-
-CREATE INDEX idx_lyzwiarstwo_szybkie ON lyzwiarstwo_szybkie ( id_zawodnika );
-
-CREATE INDEX idx_lyzwiarstwo_szybkie_0 ON lyzwiarstwo_szybkie ( id_rozgrywki );
 
 CREATE TABLE skoki_narciarskie ( 
 	id_zawodnika         integer  ,
@@ -210,6 +192,56 @@ CREATE TABLE skoki_narciarskie (
 	seria2               numeric(3,2)  ,
 	status               varchar(3) DEFAULT 'OK' NOT NULL
  );
+ 
+CREATE INDEX idx_dyscypliny ON dyscypliny ( id_kategorii );
+
+CREATE INDEX idx_rozgrywki_0 ON rozgrywki ( id_obiektu );
+
+CREATE INDEX idx_rozgrywki_1 ON rozgrywki ( id_dyscypliny );
+
+CREATE INDEX idx_rozgrywki ON rozgrywki ( id_fazy );
+
+CREATE INDEX idx_sedziowie_dyscypliny ON sedziowie_dyscypliny ( id_sedziego );
+
+CREATE INDEX idx_sedziowie_dyscypliny_0 ON sedziowie_dyscypliny ( id_dyscypliny );
+
+CREATE INDEX idx_sedziowie_rozgrywki ON sedziowie_rozgrywki ( id_rozgrywki );
+
+CREATE INDEX idx_sedziowie_rozgrywki_0 ON sedziowie_rozgrywki ( id_sedziego );
+
+CREATE INDEX idx_druzyny ON druzyny ( id_dyscypliny );
+
+CREATE INDEX idx_druzyny_0 ON druzyny ( id_kraju );
+
+CREATE INDEX idx_hokej ON hokej ( id_panstwa );
+
+CREATE INDEX idx_hokej_0 ON hokej ( id_rozgrywki );
+
+CREATE INDEX idx_dyscypliny_medale_zes_0 ON dyscypliny_medale_zes ( id_dyscypliny );
+
+CREATE INDEX idx_dyscypliny_medale_zes_1 ON dyscypliny_medale_zes ( id_druzyny );
+
+CREATE INDEX idx_zawodnicy_druzyny ON zawodnicy_druzyny ( id_druzyny ); 
+
+CREATE INDEX idx_zawodnicy ON zawodnicy ( id_panstwa );
+
+CREATE INDEX idx_zawodnicy_dyscypliny ON zawodnicy_dyscypliny ( id_zawodnika );
+
+CREATE INDEX idx_zawodnicy_dy
+ 
+CREATE INDEX idx_biegi_narciarskie ON biegi_narciarskie ( id_zawodnika );
+
+CREATE INDEX idx_biegi_narciarskie_0 ON biegi_narciarskie ( id_rozgrywki );
+
+CREATE INDEX idx_doping ON doping ( id_zawodnika );
+
+CREATE INDEX idx_dyscypliny_medalisci_ind_0 ON dyscypliny_medalisci_ind ( id_dyscypliny );
+
+CREATE INDEX idx_dyscypliny_medalisci_ind_1 ON dyscypliny_medalisci_ind ( id_zawodnika );
+
+CREATE INDEX idx_lyzwiarstwo_szybkie ON lyzwiarstwo_szybkie ( id_zawodnika );
+
+CREATE INDEX idx_lyzwiarstwo_szybkie_0 ON lyzwiarstwo_szybkie ( id_rozgrywki );
 
 CREATE INDEX idx_skoki_narciarskie ON skoki_narciarskie ( id_zawodnika );
 
