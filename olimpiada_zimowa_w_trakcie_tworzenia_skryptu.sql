@@ -154,8 +154,6 @@ CREATE TABLE zawodnicy_dyscypliny (
 	id_dyscypliny        integer  NOT NULL
  );
 
-scypliny_0 ON zawodnicy_dyscypliny ( id_dyscypliny );
-
 CREATE TABLE biegi_narciarskie ( 
 	id_zawodnika         integer  ,
 	id_rozgrywki         integer  ,
@@ -227,7 +225,7 @@ CREATE INDEX idx_zawodnicy ON zawodnicy ( id_panstwa );
 
 CREATE INDEX idx_zawodnicy_dyscypliny ON zawodnicy_dyscypliny ( id_zawodnika );
 
-CREATE INDEX idx_zawodnicy_dy
+CREATE INDEX idx_zawodnicy_dyscypliny_0 ON zawodnicy_dyscypliny ( id_dyscypliny );
  
 CREATE INDEX idx_biegi_narciarskie ON biegi_narciarskie ( id_zawodnika );
 
