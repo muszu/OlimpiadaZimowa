@@ -244,9 +244,9 @@ ALTER TABLE skoki_narciarskie ADD CONSTRAINT fk_skoki_narciarskie_0 FOREIGN KEY 
 
 ALTER TABLE zawodnicy ADD CONSTRAINT fk_zawodnicy FOREIGN KEY ( id_panstwa ) REFERENCES panstwa( id );
 
-ALTER TABLE zawodnicy ADD CONSTRAINT fk_zawodnicy_0 FOREIGN KEY ( id ) REFERENCES zawodnicy_druzyny( id_zawodnika );
-
 ALTER TABLE zawodnicy_druzyny ADD CONSTRAINT fk_zawodnicy_druzyny FOREIGN KEY ( id_druzyny ) REFERENCES druzyny( id );
+
+ALTER TABLE zawodnicy_druzyny ADD CONSTRAINT fk_zawodnicy_druzyny_0 FOREIGN KEY ( id_zawodnika ) REFERENCES zawodnicy ( id );
 
 ALTER TABLE zawodnicy_dyscypliny ADD CONSTRAINT fk_zawodnicy_dyscypliny FOREIGN KEY ( id_zawodnika ) REFERENCES zawodnicy( id );
 

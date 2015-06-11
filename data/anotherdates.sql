@@ -9,15 +9,15 @@ COPY fazy FROM stdin;
 \.
 
 
-COPY panstwa FROM stdin WITH null AS 'null';
+COPY panstwa FROM stdin;
 1	 Great Britain
- 2	 Germany
- 3	 Poland
- 4	 Russia
- 5	 United States
- 6	 Greece
- 7	 Japan
- 8	 Latvia
+2	 Germany
+3	 Poland
+4	 Russia
+5	 United States
+6	 Greece
+7	 Japan
+8	 Latvia
 9	 Mexico
 10	 Norway
 11	 Nigeria
@@ -30,28 +30,28 @@ COPY panstwa FROM stdin WITH null AS 'null';
 \.
 
 
-COPY sedziowie FROM stdin WITH null AS 'null';
+COPY sedziowie FROM stdin;
 1	Kamil	Nowak
-2	 Petr	 Iwanow
-3	 John	 Miller
-4	 Alex	 Thomson
-5	 Michael	 Smith
-6	 Egor	 Schmidt
-7	 Gregor	 Fischer
-8	 Roman	 Kowalski
-9	 Adam	 Neuer
-10	 Daniel	 Hoffman
-11	 Robert	 Becker
-12	 Olivia	 White
-13	 Joanne	 Brown
-14	 Lucia	 Hernandez
-15	 Sofia	 Thomas
-16	 Martha	 Evans
-17	 Anna	 Wojcik
-18	 John	 Miller
-19	 John	 Watson
-20	 Olivia	 Evans
-21	 Ann	 Green
+2	Petr	Iwanow
+3	John	Miller
+4	Alex	Thomson
+5	Michael	Smith
+6	Egor	Schmidt
+7	Gregor	Fischer
+8	Roman	Kowalski
+9	Adam	Neuer
+10	Daniel	Hoffman
+11	Robert	Becker
+12	Olivia	White
+13	Joanne	Brown
+14	Lucia	Hernandez
+15	Sofia	Thomas
+16	Martha	Evans
+17	Anna	Wojcik
+18	John	Miller
+19	John	Watson
+20	Olivia	Evans
+21	Ann	Green
 \.
 
 
@@ -62,7 +62,7 @@ COPY obiekty FROM stdin WITH null AS 'null';
 \.
 
 
-COPY zawodnicy FROM stdin WITH null AS 'null';
+COPY zawodnicy FROM stdin;
 1	 Kamil	 Nowak	 2	M	 1987-12-31
 2	 Petr	 Iwanow	 3	M	 1987-12-31
 3	 John	 Miller	 4	M	 1988-12-31
@@ -132,7 +132,7 @@ COPY kategorie FROM stdin WITH null AS 'null';
 \.
 
 
-COPY dyscypliny FROM stdin WITH null AS 'null';
+COPY dyscypliny FROM stdin;
 1	 10 000 m mezczyzn	 7
 2	 1000 m kobiet	 7
 3	 1000 m mezczyzn	 7
@@ -155,7 +155,7 @@ COPY dyscypliny FROM stdin WITH null AS 'null';
 \.
 
 
-COPY sedziowie_dyscypliny FROM stdin WITH null AS 'null';
+COPY sedziowie_dyscypliny FROM stdin;
 1	 2
 1	 3
 1	 4
@@ -187,7 +187,7 @@ COPY sedziowie_dyscypliny FROM stdin WITH null AS 'null';
 \.
 
 
-COPY druzyny FROM stdin WITH null AS 'null';
+COPY druzyny FROM stdin;
 1	 POL1	  16	 3
 2	 POL2	  16	 3
 3	 GER1	  16	 2
@@ -199,6 +199,12 @@ COPY druzyny FROM stdin WITH null AS 'null';
 9	 TUR1	  16	 14
 \.
 
+COPY zawodnicy_druzyny FROM stdin;
+1	1
+1	25
+2	23
+2	8
+\.
 
 
 commit;
