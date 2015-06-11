@@ -56,9 +56,9 @@ COPY sedziowie FROM stdin;
 
 
 COPY obiekty FROM stdin WITH null AS 'null';
-1	 Adler-Arena	 tor lyzwiarski	 null	 Soczi
-2	 Arena lodowa Szajba	 lodowisko	 null	 Soczi
-3	 Russkije Gorki	 skocznia narciarska	 null	 Krasnaja Polana
+1	 Adler-Arena	 tor lyzwiarski	null	 Soczi
+2	 Arena lodowa Szajba	 lodowisko	null	 Soczi
+3	 Russkije Gorki	 skocznia narciarska	null	 Krasnaja Polana
 \.
 
 

@@ -292,9 +292,6 @@
 			<fk name="fk_zawodnicy" to_schema="winter olympics" to_table="panstwa" >
 				<fk_column name="id_panstwa" pk="id" />
 			</fk>
-			<fk name="fk_zawodnicy_0" to_schema="winter olympics" to_table="zawodnicy_druzyny" >
-				<fk_column name="id" pk="id_zawodnika" />
-			</fk>
 		</table>
 		<table name="zawodnicy_druzyny" >
 			<column name="id_druzyny" type="integer" jt="4" mandatory="y" />
@@ -307,6 +304,9 @@
 			</index>
 			<fk name="fk_zawodnicy_druzyny" to_schema="winter olympics" to_table="druzyny" >
 				<fk_column name="id_druzyny" pk="id" />
+			</fk>
+			<fk name="fk_zawodnicy_druzyny_0" to_schema="winter olympics" to_table="zawodnicy" >
+				<fk_column name="id_zawodnika" pk="id" />
 			</fk>
 		</table>
 		<table name="zawodnicy_dyscypliny" >
@@ -339,7 +339,6 @@
 		<entity schema="winter olympics" name="dyscypliny" color="c0d4f3" x="390" y="420" />
 		<entity schema="winter olympics" name="druzyny" color="c0d4f3" x="300" y="90" />
 		<entity schema="winter olympics" name="zawodnicy" color="c0d4f3" x="480" y="210" />
-		<entity schema="winter olympics" name="zawodnicy_druzyny" color="c0d4f3" x="645" y="120" />
 		<entity schema="winter olympics" name="dyscypliny_medale_zes" color="c0d4f3" x="1035" y="45" />
 		<entity schema="winter olympics" name="dyscypliny_medalisci_ind" color="c0d4f3" x="870" y="105" />
 		<entity schema="winter olympics" name="biegi_narciarskie" color="c0d4f3" x="825" y="195" />
@@ -347,6 +346,7 @@
 		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="825" y="420" />
 		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="825" y="540" />
 		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="60" y="645" />
+		<entity schema="winter olympics" name="zawodnicy_druzyny" color="c0d4f3" x="645" y="120" />
 		<script name="Sql" id="SQL_56ec2cd" >
 			<string><![CDATA[CREATE SCHEMA "winter olympics";
 
