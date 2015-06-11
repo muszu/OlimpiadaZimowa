@@ -1,0 +1,5 @@
+Triggery
+Funkcje
+Widoki
+Usuwanie funkcji/widoków/indexów/triggerów
+Upewnić się, że diagram jest aktualny
