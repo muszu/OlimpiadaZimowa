@@ -4,6 +4,7 @@
 Funkcje
 	podaje czas zakończenia/następnego wydarzenia [ew. na podanym obiekcie]
 	wynik meczu
+	funkcja zastępująca sędziego w podanej rozgrywce
 
 Widoki
 multimedalisci()
