@@ -51,12 +51,13 @@ CREATE INDEX idx_zawodnicy ON zawodnicy ( id_panstwa );
 CREATE TABLE doping ( 
 	id_zawodnika         integer  ,
 	data_pobrania        date  ,
-	wynik                bool  
+	wynik                bool  ,
+	CONSTRAINT pk_doping PRIMARY KEY (id_zawodnika, data_pobrania)
  );
 
 CREATE INDEX idx_doping ON doping ( id_zawodnika );
 
-CREATE TABLE dyscypliny ( 
+CREATE TABLE dyscypliny (
 	id                   integer  NOT NULL,
 	nazwa                varchar(30)  ,
 	id_kategorii         integer  ,
@@ -94,7 +95,8 @@ CREATE INDEX idx_rozgrywki ON rozgrywki ( id_fazy );
 
 CREATE TABLE sedziowie_dyscypliny ( 
 	id_sedziego          integer  ,
-	id_dyscypliny        integer  
+	id_dyscypliny        integer  ,
+	CONSTRAINT pk_sedziowie_dyscypliny PRIMARY KEY (id_sedziego, id_dyscypliny)
  );
 
 CREATE INDEX idx_sedziowie_dyscypliny ON sedziowie_dyscypliny ( id_sedziego );
@@ -103,7 +105,8 @@ CREATE INDEX idx_sedziowie_dyscypliny_0 ON sedziowie_dyscypliny ( id_dyscypliny 
 
 CREATE TABLE sedziowie_rozgrywki ( 
 	id_rozgrywki         integer  NOT NULL,
-	id_sedziego          integer  NOT NULL
+	id_sedziego          integer  NOT NULL,
+	CONSTRAINT pk_sedziowie_rozgrywki PRIMARY KEY (id_rozgrywki,id_sedziego)
  );
 
 CREATE INDEX idx_sedziowie_rozgrywki ON sedziowie_rozgrywki ( id_rozgrywki );
