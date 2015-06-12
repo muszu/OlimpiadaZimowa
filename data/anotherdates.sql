@@ -188,15 +188,15 @@ COPY sedziowie_dyscypliny FROM stdin;
 
 
 COPY druzyny FROM stdin;
-1	 POL1	  16	 3
-2	 POL2	  16	 3
-3	 GER1	  16	 2
-4	 GER2	  16	 2
-5	 NOR1	  16	 10
-6	 NOR2	  16	 10
-7	 NOR3	  17	 10
-8	 NOR4	  17	 10
-9	 TUR1	  16	 14
+1	 POL1	  16	3
+2	 POL2	  16	3
+3	 GER1	  16	2
+4	 GER2	  16	2
+5	 NOR1	  16	10
+6	 NOR2	  16	10
+7	 NOR3	  17	10
+8	 NOR4	  17	10
+9	 TUR1	  16	14
 \.
 
 COPY zawodnicy_druzyny FROM stdin;
