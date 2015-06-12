@@ -1,4 +1,5 @@
 --jeśli możemy zastąpić sędziego innym sędzią to to zróbmy
+--TRZEBA sprawidź czy Raise exception robi rollback
 CREATE OR REPLACE FUNCTION sedziowie_delete_check() RETURNS trigger AS $sedziowie_delete_check$
 DECLARE
 	zastepstwo integer;
@@ -12,7 +13,7 @@ BEGIN
 		zastepstwo=-1;
 		FOR u IN SELECT * FROM sedziowie s 
 		JOIN sedziowie_dyscypliny sd1 ON s.id = sd1.id_sedziego 
-		WHERE sd.id_dyscypliny=r.id_dyscypliny AND s.id != OLD.id
+		WHERE sd1.id_dyscypliny=r.id_dyscypliny AND s.id != OLD.id
 		LOOP
 			IF( SELECT COALESCE(COUNT(*),0) FROM rozgrywki roz2 
 			JOIN sedziowie_rozgrywki sr2 ON roz2.od_rozrywki = sr2.id_rozgrywki 
@@ -33,6 +34,8 @@ BEGIN
 END;
 $sedziowie_delete_check$ LANGUAGE plpgsql;
 
+CREATE TRIGGER sedziowie_delete_check BEFORE DELETE ON sedziowie
+FOR EACH ROW EXECUTE PROCEDURE sedziowie_delete_check();
 
 -- IF ( SELECT COALESCE(COUNT(*),0)  FROM sedziowie_rozgrywki r where r.id_sedziego = OLD.id) != 0 then
 --		RAISE EXCEPTION 'Nie monżna skasować sędziego, ponieważ sędziuje mecz';
@@ -43,5 +46,3 @@ $sedziowie_delete_check$ LANGUAGE plpgsql;
 
 
 
-CREATE TRIGGER sedziowie_delete_check BEFORE DELETE ON sedziowie
-FOR EACH ROW EXECUTE PROCEDURE sedziowie_delete_check();
