@@ -1,5 +1,16 @@
-Triggery
+﻿Triggery
+	on delete/insert/update
+
 Funkcje
+	podaje czas zakończenia/następnego wydarzenia [ew. na podanym obiekcie]
+
 Widoki
+multimedalisci()
+zawodnik, liczba zlotych, l. srebrnych, l. brazowych
+medalisci()
+kraje_medale()
+wykaz meczów w których gra 1 drużyna?
+
+
 Usuwanie funkcji/widoków/indexów/triggerów
 Upewnić się, że diagram jest aktualny
