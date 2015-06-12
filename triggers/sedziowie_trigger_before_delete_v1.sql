@@ -1,5 +1,4 @@
---jeśli możemy zastąpić sędziego innym sędzią to to zróbmy
---TRZEBA sprawidź czy Raise exception robi rollback
+--jeśli możemy zastąpić sędziego innym sędzią to to robimy
 CREATE OR REPLACE FUNCTION sedziowie_delete_check() RETURNS trigger AS $sedziowie_delete_check$
 DECLARE
 	zastepstwo integer;
@@ -15,34 +14,31 @@ BEGIN
 		JOIN sedziowie_dyscypliny sd1 ON s.id = sd1.id_sedziego 
 		WHERE sd1.id_dyscypliny=r.id_dyscypliny AND s.id != OLD.id
 		LOOP
-			IF( SELECT COALESCE(COUNT(*),0) FROM rozgrywki roz2 
-			JOIN sedziowie_rozgrywki sr2 ON roz2.od_rozrywki = sr2.id_rozgrywki 
-			WHERE sr2.id_sedziego=zastepstwo 
-			AND (roz2.data_rozgrywki > roz1.data_rozgrywki + interval '5 hours' 
-			OR roz2.data_rozgrywki < roz1.data_rozgrywki - interval '5 hours') )
+			IF( (SELECT COALESCE(COUNT(*),0) FROM rozgrywki roz2 
+			JOIN sedziowie_rozgrywki sr2 ON roz2.id_rozgrywki = sr2.id_rozgrywki 
+			WHERE sr2.id_sedziego=u.id
+			AND (roz2.data_rozgrywki > r.data_rozgrywki + interval '5 hours' 
+			OR roz2.data_rozgrywki < r.data_rozgrywki - interval '5 hours')) = 0 )
 			THEN
 				zastepstwo = u.id;
+				EXIT;
 			END IF;
 		END LOOP;
 		IF zastepstwo=-1
 		THEN
-			RAISE EXCEPTION 'Nie monżna usunąć sędziego, brak zastępstwa do sędziowania.';
+			RAISE EXCEPTION 'Nie monżna usunąć sędziego, brak zastępstwa.';
 		ELSE
-			--zmień dane w tabeli
+			UPDATE sedziowie_rozgrywki
+			SET id_sedziego = zastepstwo
+			WHERE id_sedziego=OLD.id AND id_rozgrywki = r.id_rozgrywki;
 		END IF;
 	 END LOOP; 
+	 DELETE FROM sedziowie_dyscypliny WHERE id_sedziego = OLD.id;
+	 RETURN OLD;
 END;
 $sedziowie_delete_check$ LANGUAGE plpgsql;
 
 CREATE TRIGGER sedziowie_delete_check BEFORE DELETE ON sedziowie
 FOR EACH ROW EXECUTE PROCEDURE sedziowie_delete_check();
-
--- IF ( SELECT COALESCE(COUNT(*),0)  FROM sedziowie_rozgrywki r where r.id_sedziego = OLD.id) != 0 then
---		RAISE EXCEPTION 'Nie monżna skasować sędziego, ponieważ sędziuje mecz';
---		END IF;
---		DELETE from sedziowie s where s.id=OLD.id;
---	ROLLBACK jak nie pyknie
-
-
 
 
