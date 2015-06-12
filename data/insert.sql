@@ -74,12 +74,12 @@ COPY kategorie FROM stdin WITH null AS 'null';
 
 COPY dyscypliny FROM stdin;
 1	 10 000 m mezczyzn	 5	false
-2	 1000 m kobiet	 5	false
+2	 1000 m kobiet	 5	true
 3	 1000 m mezczyzn	5	false
 4	 500 m kobiet	 5	false
 5	 bieg druzynowy kobiet	 5	false
 6	 bieg druzynowy mezczyzn	 5	false
-7	 turniej kobiet	 3	false
+7	 turniej kobiet	 3	true
 8	 turniej mezczyzn	 3	false
 9	 skocznia duza mezczyzn	 11	false
 10	 skocznia normalna mezczyzn	 11	false
@@ -96,8 +96,8 @@ COPY dyscypliny FROM stdin;
 
 
 COPY druzyny FROM stdin;
-1	GBR	8	8
-2	GBR	7	8
+1	GBR	8	1
+2	GBR	7	1
 3	POL	8	3
 4	POL	7	3
 5	GER	8	2
@@ -408,6 +408,88 @@ COPY obiekty FROM stdin WITH null AS 'null';
 1	 Adler-Arena	tor lyzwiarski	null	 Soczi
 2	 Arena lodowa Szajba	 lodowisko	null	 Soczi
 3	 Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
+\.
+
+COPY rozgrywki FROM stdin;
+1	7	2015-05-12	2	2
+2	7	2015-05-13	2	2
+3	7	2015-05-14	2	1
+4	8	2015-05-14	2	2
+5	8	2015-05-15	2	2
+6	2	2015-05-10	1	4
+7	2	2015-05-15	1	1
+\.
+
+COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
+82	6	67.34	OK
+81	6	68.76	OK
+80	6	68.77	OK
+79	6	68.79	OK
+78	6	68.80	OK
+77	6	69.05	OK
+76	6	null	DNF
+74	6	null	DNS
+73	6	null	NDF
+71	6	69.89	OK
+70	6	70.80	OK
+69	6	70.89	OK
+68	6	71.10	OK
+67	6	71.40	OK
+66	6	71.34	OK
+65	6	null	DNS
+64	6	null	DNF
+63	6	73.34	OK
+82	7	66.10	OK
+81	7	66.36	OK
+80	7	66.77	OK
+79	7	66.98	OK
+78	7	null	DNF
+77	7	68.05	OK
+\.
+
+COPY hokej FROM stdin;
+12	1	4	0	OK
+11	1	1	0	OK
+10	1	0	1	OK
+6	1	1	0	OK
+5	1	1	0	OK
+4	1	0	0	OK
+18	2	0	0	OK
+17	2	0	0	OK
+16	2	0	0	OK
+22	2	1	0	OK
+23	2	0	0	OK
+24	2	0	0	OK
+10	3	0	0	OK
+11	3	1	0	OK
+12	3	1	0	OK
+22	3	0	0	OK
+23	3	0	1	OK
+24	3	0	0	OK
+7	4	0	0	OK
+8	4	0	0	OK
+9	4	0	0	OK
+13	4	1	0	OK
+14	4	1	0	OK
+15	4	1	0	OK
+1	5	3	0	OK
+2	5	0	0	OK
+3	5	0	0	OK
+19	5	1	1	OK
+20	5	1	1	OK
+21	5	1	0	OK
+\.
+
+COPY dyscypliny_medale_zes FROM stdin;
+7	4	1
+7	8	2
+7	2	3
+\.
+
+COPY dyscypliny_medalisci_ind FROM stdin;
+2	82	1
+2	81	2
+2	80	3
 \.
 
 COMMIT;
