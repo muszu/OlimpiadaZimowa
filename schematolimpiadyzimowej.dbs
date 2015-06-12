@@ -120,29 +120,30 @@
 			</index>
 		</table>
 		<table name="hokej" >
-			<column name="id_panstwa" type="integer" jt="4" />
+			<column name="id_zawodnika" type="integer" jt="4" mandatory="y" />
 			<column name="id_rozgrywki" type="integer" jt="4" />
-			<column name="punkty" type="integer" jt="4" />
+			<column name="bramki" type="integer" jt="4" />
+			<column name="bramki_samobojcze" type="integer" jt="4" />
 			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
 				<defo>&#039;OK&#039;</defo>
 			</column>
-			<index name="idx_hokej" unique="NORMAL" >
-				<column name="id_panstwa" />
-			</index>
 			<index name="idx_hokej_0" unique="NORMAL" >
 				<column name="id_rozgrywki" />
 			</index>
-			<fk name="fk_hokej" to_schema="winter olympics" to_table="panstwa" >
-				<fk_column name="id_panstwa" pk="id" />
-			</fk>
+			<index name="idx_hokej" unique="NORMAL" >
+				<column name="id_zawodnika" />
+			</index>
 			<fk name="fk_hokej_0" to_schema="winter olympics" to_table="rozgrywki" >
 				<fk_column name="id_rozgrywki" pk="id_rozgrywki" />
+			</fk>
+			<fk name="fk_hokej" to_schema="winter olympics" to_table="zawodnicy" >
+				<fk_column name="id_zawodnika" pk="id" />
 			</fk>
 		</table>
 		<table name="kategorie" >
 			<column name="id" type="integer" jt="4" mandatory="y" />
 			<column name="nazwa" type="varchar" length="30" jt="12" />
-			<column name="nadkategoria" type="integer" jt="4" />
+			<column name="nadkategoria" type="varchar" length="30" jt="12" />
 			<index name="pk_kategorie" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -255,8 +256,12 @@
 		<table name="skoki_narciarskie" >
 			<column name="id_zawodnika" type="integer" jt="4" />
 			<column name="id_rozgrywki" type="integer" jt="4" />
-			<column name="seria1" type="numeric" length="3" decimal="2" jt="2" />
-			<column name="seria2" type="numeric" length="3" decimal="2" jt="2" />
+			<column name="odleglosc" type="numeric" length="4" decimal="1" jt="2" />
+			<column name="sedzia1" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia2" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia3" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia4" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia5" type="numeric" length="3" decimal="1" jt="2" />
 			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
 				<defo>&#039;OK&#039;</defo>
 			</column>
@@ -327,26 +332,26 @@
 		</table>
 	</schema>
 	<layout id="Layout_16842443" name="Winter Olympics" show_relation_columns="y" >
-		<entity schema="winter olympics" name="doping" color="c0d4f3" x="60" y="225" />
-		<entity schema="winter olympics" name="panstwa" color="c0d4f3" x="60" y="135" />
-		<entity schema="winter olympics" name="fazy" color="c0d4f3" x="720" y="660" />
-		<entity schema="winter olympics" name="sedziowie_rozgrywki" color="c0d4f3" x="225" y="690" />
-		<entity schema="winter olympics" name="rozgrywki" color="c0d4f3" x="450" y="630" />
-		<entity schema="winter olympics" name="sedziowie" color="c0d4f3" x="45" y="465" />
-		<entity schema="winter olympics" name="sedziowie_dyscypliny" color="c0d4f3" x="180" y="495" />
-		<entity schema="winter olympics" name="zawodnicy_dyscypliny" color="c0d4f3" x="540" y="450" />
-		<entity schema="winter olympics" name="kategorie" color="c0d4f3" x="60" y="330" />
-		<entity schema="winter olympics" name="dyscypliny" color="c0d4f3" x="390" y="420" />
-		<entity schema="winter olympics" name="druzyny" color="c0d4f3" x="300" y="90" />
-		<entity schema="winter olympics" name="zawodnicy" color="c0d4f3" x="480" y="210" />
-		<entity schema="winter olympics" name="dyscypliny_medale_zes" color="c0d4f3" x="1035" y="45" />
-		<entity schema="winter olympics" name="dyscypliny_medalisci_ind" color="c0d4f3" x="870" y="105" />
-		<entity schema="winter olympics" name="biegi_narciarskie" color="c0d4f3" x="825" y="195" />
-		<entity schema="winter olympics" name="hokej" color="c0d4f3" x="825" y="315" />
-		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="825" y="420" />
-		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="825" y="540" />
-		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="60" y="645" />
-		<entity schema="winter olympics" name="zawodnicy_druzyny" color="c0d4f3" x="645" y="120" />
+		<entity schema="winter olympics" name="biegi_narciarskie" color="c0d4f3" x="780" y="75" />
+		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="780" y="540" />
+		<entity schema="winter olympics" name="rozgrywki" color="c0d4f3" x="465" y="525" />
+		<entity schema="winter olympics" name="sedziowie_rozgrywki" color="c0d4f3" x="285" y="585" />
+		<entity schema="winter olympics" name="zawodnicy" color="c0d4f3" x="420" y="150" />
+		<entity schema="winter olympics" name="panstwa" color="c0d4f3" x="270" y="45" />
+		<entity schema="winter olympics" name="zawodnicy_dyscypliny" color="c0d4f3" x="405" y="405" />
+		<entity schema="winter olympics" name="zawodnicy_druzyny" color="c0d4f3" x="240" y="180" />
+		<entity schema="winter olympics" name="doping" color="c0d4f3" x="540" y="45" />
+		<entity schema="winter olympics" name="fazy" color="c0d4f3" x="555" y="675" />
+		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="405" y="690" />
+		<entity schema="winter olympics" name="hokej" color="c0d4f3" x="780" y="195" />
+		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="780" y="330" />
+		<entity schema="winter olympics" name="sedziowie" color="c0d4f3" x="180" y="675" />
+		<entity schema="winter olympics" name="dyscypliny" color="c0d4f3" x="195" y="450" />
+		<entity schema="winter olympics" name="sedziowie_dyscypliny" color="c0d4f3" x="45" y="585" />
+		<entity schema="winter olympics" name="kategorie" color="c0d4f3" x="45" y="465" />
+		<entity schema="winter olympics" name="druzyny" color="c0d4f3" x="45" y="165" />
+		<entity schema="winter olympics" name="dyscypliny_medale_zes" color="c0d4f3" x="120" y="300" />
+		<entity schema="winter olympics" name="dyscypliny_medalisci_ind" color="c0d4f3" x="270" y="300" />
 		<script name="Sql" id="SQL_56ec2cd" >
 			<string><![CDATA[CREATE SCHEMA "winter olympics";
 
