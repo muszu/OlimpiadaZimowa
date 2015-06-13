@@ -1,5 +1,5 @@
 
-CREATE VIEW tabela_medalowa AS(
+CREATE VIEW tabela_medalowa(panstwo, zloto, srebro, braz, suma) AS(
 
 	WITH zesp(id, zloto, srebro, braz) AS
 	(SELECT pa.id, 

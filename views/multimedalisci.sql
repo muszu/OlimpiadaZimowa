@@ -1,5 +1,5 @@
 
-CREATE VIEW multimedalisci AS(
+CREATE VIEW multimedalisci(imie, nazwisko, panstwo, kategoria, zloto, srebro, braz, suma) AS(
 
 	WITH zesp(id, zloto, srebro, braz) AS
 	(SELECT za.id, 
