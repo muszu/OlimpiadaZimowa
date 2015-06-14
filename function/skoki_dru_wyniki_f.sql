@@ -16,27 +16,16 @@ BEGIN
 	suma3=-42;
 	iterator = 1;
 	tempsuma=-43;
-	FOR r IN SELECT B.suma AS s, row_number() over(order by B.suma DESC) AS rn
-	FROM (
-	SELECT A.suma AS suma FROM 
-		(SELECT DISTINCT s1.odleglosc + s1.sedzia1 + s1.sedzia2 + s1.sedzia3 + s1.sedzia4 + s1.sedzia5 + s2.odleglosc + s2.sedzia1 + s2.sedzia2 + s2.sedzia3 + s2.sedzia4 + s2.sedzia5 
-											- GREATEST(s1.sedzia1, s1.sedzia2, s1.sedzia3, s1.sedzia4, s1.sedzia5) 
-											- GREATEST(s2.sedzia1, s2.sedzia2, s2.sedzia3, s2.sedzia4, s2.sedzia5)
-											+ GREATEST(-s1.sedzia1, -s1.sedzia2, -s1.sedzia3, -s1.sedzia4, -s1.sedzia5) 
-											+ GREATEST(-s2.sedzia1, -s2.sedzia2, -s2.sedzia3, -s2.sedzia4, -s2.sedzia5) AS suma
-		FROM skoki_narciarskie s1
-		JOIN skoki_narciarskie s2 ON s1.id_zawodnika = s2.id_zawodnika
-		WHERE s1.status = 'OK' AND s2.status = 'OK' 
-		AND s1.id_rozgrywki IN (SELECT id_rozgrywki FROM rozgrywki WHERE id_fazy = 7 AND id_dyscypliny = 10)
-		AND s2.id_rozgrywki IN (SELECT id_rozgrywki	FROM rozgrywki WHERE id_fazy = 8 AND id_dyscypliny = 10)
-		ORDER BY suma DESC) AS A
-		) B
+	FOR r IN SELECT  DISTINCT ws.punkty FROM wyniki_skoki_druzynowe(x) ws ORDER BY 1 DISC;
 	LOOP
-		IF (r.rn = 1) THEN suma1 = r.s; END IF;
-		IF (r.rn = 2) THEN suma2 = r.s; END IF;
-		IF (r.rn = 3) THEN suma3 = r.s; END IF;
+		IF (iterator = 1) THEN suma1 = ws.punkty; iterator=iterator+1; END IF;
+		IF (iterator = 2) THEN suma2 = ws.punkty; iterator=iterator+1 END IF;
+		IF (iterator = 3) THEN suma3 = ws.punkty; END IF;
 	END LOOP;
+	IF (suma1 = suma2) THEN suma2 = -42; END IF;
+	IF( suma1 = suma3) THEN suma3 = -42; END IF;
+	if( suma2 = suma3) THEN suma3 = -42; END IF;
 	RETURN QUERY 
-	SELECT x, s1.id_zawodnika;
+	SELECT x, s1.id_zawodnika, ;
 END;
 $$ LANGUAGE plpgsql;
