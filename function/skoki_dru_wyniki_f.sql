@@ -7,7 +7,6 @@ DECLARE
 	liczba1 numeric(5,1);
 	liczba2 numeric(5,1);
 	liczba3 numeric(5,1);
-	iterator integer;
 	r record;
 BEGIN
 	IF x NOT IN (12) THEN
@@ -19,7 +18,6 @@ BEGIN
 	liczba1 = 0;
 	liczba2 = 0;
 	liczba3 = 0;
-	iterator = 1;
 	FOR r IN SELECT  DISTINCT ws.punkty FROM wyniki_skoki_druzynowe(x) ws ORDER BY 1 DESC
 	LOOP
 		IF (suma1 = -42) THEN suma1 = r.punkty;
