@@ -391,6 +391,16 @@ COPY zawodnicy_dyscypliny FROM stdin;
 82	2
 82	4
 83	4
+58	14
+43	14
+44	14
+45	14
+46	14
+49	14
+50	14
+53	14
+54	14
+57	14
 \.
 
 
@@ -429,10 +439,11 @@ COPY rozgrywki FROM stdin;
 11	10	2015-05-25	3	8
 12	12	2015-05-30	3	7
 13	12	2015-05-30	3	8
-14	16	2015-06-01	4	2
+14	16	2015-06-01	4	4
 15	16	2015-06-05	4	1
-16	17	2015-06-10	4	2
+16	17	2015-06-10	4	4
 17	17	2015-06-15	4	1
+18	14	2015-06-02	4	4
 \.
 
 COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
@@ -741,6 +752,16 @@ COPY biegi_narciarskie FROM stdin WITH null AS 'null';
 46	17	53.85	OK
 53	17	58.45	OK
 54	17	50.95	OK
+43	18	54.45	OK
+44	18	50.25	OK
+45	18	52.45	OK
+46	18	53.85	OK
+49	18	76.45	OK
+50	18	61.95	OK
+53	18	58.45	OK
+54	18	50.15	OK
+57	18	null	DSQ
+58	18	null	DNF
 \.
 
 COMMIT;
