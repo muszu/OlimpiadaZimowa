@@ -6,6 +6,8 @@ COPY fazy (id, nazwa) FROM stdin;
 3	cwiercfinal
 4	eliminacje
 5	playoff
+6   I seria
+7   final B
 \.
 
 -- lub WITH null AS '' wtedy wystarczy tabulator
