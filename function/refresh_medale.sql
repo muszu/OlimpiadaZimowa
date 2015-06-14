@@ -1,37 +1,16 @@
-CREATE OR REPLACE FUNCTION refresh_medale_ind(x integer) RETURNS void AS $$
+CREATE OR REPLACE FUNCTION odswiez_medale(x integer) RETURNS void AS $$
 BEGIN
 	DELETE FROM dyscypliny_medale_zes WHERE id_dyscypliny = x;
 	DELETE FROM  dyscypliny_medalisci_ind WHERE id_dyscypliny = x;
-		--biegi narciarskie ind
-		IF x IN (13,14,18) THEN
+		--ind bez nart
+		IF x IN (1,2,3,4,13,14,18) THEN
 		INSERT INTO  dyscypliny_medalisci_ind
-			SELECT x, id_zwodnika,
-				CASE WHEN row_number() over( order by czas)=1 THEN 1
-					 WHEN row_number() over( order by czas)=2 THEN 2
-					 WHEN row_number() over( order by czas)=3 THEN 3
-				END
-			FROM biegi_narciarskie
-			WHERE status = 'OK' AND id_rozgrywki IN (SELECT id_rozgrywki
-			FROM rozgrywki
-			WHERE id_fazy = 1 AND id_dyscypliny = x)
-			LIMIT 3;
-		--zespolowe
+			SELECT x, w.id_zawodnika, w.medal
+			FROM wyniki_ind(x) w
+			WHERE w.medal IS NOT NULL;
 		ELSIF x IN (15,16,17,19) THEN 
 			x=x-1;
 			x=x+1;
-		--lyzwiarstwo szybkie ind
-		ELSIF x IN (1,2,3,4) THEN
-			INSERT INTO  dyscypliny_medalisci_ind
-			SELECT x,  id_zawodnika,
-				CASE WHEN row_number() over( order by czas)=1 THEN 1
-					 WHEN row_number() over( order by czas)=2 THEN 2
-					 WHEN row_number() over( order by czas)=3 THEN 3
-				END
-			FROM lyzwiarstwo_szybkie
-			WHERE status = 'OK' AND id_rozgrywki IN (SELECT id_rozgrywki
-			FROM rozgrywki
-			WHERE id_fazy = 1 AND id_dyscypliny = x)
-			LIMIT 3;
 		--zespolowe
 		ELSIF x IN (5,6) THEN
 			x=x-1;
@@ -44,8 +23,10 @@ BEGIN
 			WHERE si.medal IS NOT NULL;
 		--zespolowe
 		ELSIF x IN (12) THEN
-			x=x-1;
-			x=x+1;
+			INSERT INTO  dyscypliny_medale_zes
+			SELECT x, si.id_druzyny, si.medal
+			FROM skoki_dru_wyniki_f(x) si
+			WHERE si.medal IS NOT NULL;
 	END IF;
 	RETURN;
 END;

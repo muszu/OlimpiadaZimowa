@@ -28,7 +28,7 @@ BEGIN
 		FOR r IN SELECT * FROM zawodnicy_dyscypliny zawdy
 		WHERE zawdy.id_zawodnika = NEW.id_zawodnika
 		LOOP
-			PERFORM refresh_medale_ind(r.id_dyscypliny);
+			PERFORM odswiez_medale(r.id_dyscypliny);
 		END LOOP;
 	 RETURN NEW;
 END;
