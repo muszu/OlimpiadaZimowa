@@ -4,7 +4,7 @@
 		<table name="biegi_narciarskie" >
 			<column name="id_zawodnika" type="integer" jt="4" mandatory="y" />
 			<column name="id_rozgrywki" type="integer" jt="4" mandatory="y" />
-			<column name="czas" type="numeric" jt="2" mandatory="y" />
+			<column name="czas" type="numeric" jt="2" />
 			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
 				<defo>&#039;OK&#039;</defo>
 			</column>
@@ -131,9 +131,6 @@
 			<column name="id_rozgrywki" type="integer" jt="4" mandatory="y" />
 			<column name="bramki" type="integer" jt="4" mandatory="y" />
 			<column name="bramki_samobojcze" type="integer" jt="4" mandatory="y" />
-			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
-				<defo>&#039;OK&#039;</defo>
-			</column>
 			<index name="idx_hokej_0" unique="NORMAL" >
 				<column name="id_rozgrywki" />
 			</index>
@@ -162,7 +159,7 @@
 		<table name="lyzwiarstwo_szybkie" >
 			<column name="id_zawodnika" type="integer" jt="4" mandatory="y" />
 			<column name="id_rozgrywki" type="integer" jt="4" mandatory="y" />
-			<column name="czas" type="numeric" jt="2" mandatory="y" />
+			<column name="czas" type="numeric" jt="2" />
 			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
 				<defo>&#039;OK&#039;</defo>
 			</column>
@@ -279,12 +276,12 @@
 		<table name="skoki_narciarskie" >
 			<column name="id_zawodnika" type="integer" jt="4" mandatory="y" />
 			<column name="id_rozgrywki" type="integer" jt="4" mandatory="y" />
-			<column name="odleglosc" type="numeric" length="4" decimal="1" jt="2" mandatory="y" />
-			<column name="sedzia1" type="numeric" length="3" decimal="1" jt="2" mandatory="y" />
-			<column name="sedzia2" type="numeric" length="3" decimal="1" jt="2" mandatory="y" />
-			<column name="sedzia3" type="numeric" length="3" decimal="1" jt="2" mandatory="y" />
-			<column name="sedzia4" type="numeric" length="3" decimal="1" jt="2" mandatory="y" />
-			<column name="sedzia5" type="numeric" length="3" decimal="1" jt="2" mandatory="y" />
+			<column name="odleglosc" type="numeric" length="4" decimal="1" jt="2" />
+			<column name="sedzia1" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia2" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia3" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia4" type="numeric" length="3" decimal="1" jt="2" />
+			<column name="sedzia5" type="numeric" length="3" decimal="1" jt="2" />
 			<column name="status" type="varchar" length="3" jt="12" mandatory="y" >
 				<defo>&#039;OK&#039;</defo>
 			</column>
@@ -370,10 +367,6 @@
 		<entity schema="winter olympics" name="sedziowie_rozgrywki" color="c0d4f3" x="285" y="585" />
 		<entity schema="winter olympics" name="sedziowie_dyscypliny" color="c0d4f3" x="45" y="585" />
 		<entity schema="winter olympics" name="zawodnicy_dyscypliny" color="c0d4f3" x="405" y="405" />
-		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="780" y="330" />
-		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="780" y="540" />
-		<entity schema="winter olympics" name="hokej" color="c0d4f3" x="780" y="195" />
-		<entity schema="winter olympics" name="biegi_narciarskie" color="c0d4f3" x="780" y="75" />
 		<entity schema="winter olympics" name="fazy" color="c0d4f3" x="555" y="675" />
 		<entity schema="winter olympics" name="obiekty" color="c0d4f3" x="405" y="690" />
 		<entity schema="winter olympics" name="rozgrywki" color="c0d4f3" x="465" y="525" />
@@ -381,6 +374,10 @@
 		<entity schema="winter olympics" name="druzyny" color="c0d4f3" x="45" y="165" />
 		<entity schema="winter olympics" name="panstwa" color="c0d4f3" x="270" y="45" />
 		<entity schema="winter olympics" name="zawodnicy" color="c0d4f3" x="420" y="150" />
+		<entity schema="winter olympics" name="biegi_narciarskie" color="c0d4f3" x="780" y="75" />
+		<entity schema="winter olympics" name="hokej" color="c0d4f3" x="780" y="195" />
+		<entity schema="winter olympics" name="skoki_narciarskie" color="c0d4f3" x="780" y="330" />
+		<entity schema="winter olympics" name="lyzwiarstwo_szybkie" color="c0d4f3" x="780" y="540" />
 		<script name="Sql" id="SQL_56ec2cd" >
 			<string><![CDATA[CREATE SCHEMA "winter olympics";
 
@@ -785,6 +782,246 @@ CREATE TABLE "winter olympics".lyzwiarstwo_szybkie (
 	id_zawodnika         integer  NOT NULL,
 	id_rozgrywki         integer  NOT NULL,
 	czas                 numeric  NOT NULL,
+	status               varchar(3) DEFAULT 'OK' NOT NULL,
+	CONSTRAINT idx_lyzwiarstwo_szybkie_1 PRIMARY KEY ( id_zawodnika, id_rozgrywki ),
+	CONSTRAINT fk_lyzwiarstwo_szybkie FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    ,
+	CONSTRAINT fk_lyzwiarstwo_szybkie_0 FOREIGN KEY ( id_rozgrywki ) REFERENCES "winter olympics".rozgrywki( id_rozgrywki )    
+ );
+
+CREATE INDEX idx_lyzwiarstwo_szybkie ON "winter olympics".lyzwiarstwo_szybkie ( id_zawodnika );
+
+CREATE INDEX idx_lyzwiarstwo_szybkie_0 ON "winter olympics".lyzwiarstwo_szybkie ( id_rozgrywki );
+
+CREATE TABLE "winter olympics".zawodnicy_druzyny ( 
+	id_druzyny           integer  NOT NULL,
+	id_zawodnika         integer  NOT NULL,
+	CONSTRAINT idx_zawodnicy_druzyny PRIMARY KEY ( id_druzyny, id_zawodnika ),
+	CONSTRAINT fk_zawodnicy_druzyny FOREIGN KEY ( id_druzyny ) REFERENCES "winter olympics".druzyny( id )    ,
+	CONSTRAINT fk_zawodnicy_druzyny_0 FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    
+ );
+
+]]></string>
+		</script>
+		<script name="Sql_002" id="SQL_3af23135" >
+			<string><![CDATA[CREATE SCHEMA "winter olympics";
+
+CREATE TABLE "winter olympics".fazy ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  NOT NULL,
+	CONSTRAINT pk_fazy PRIMARY KEY ( id )
+ );
+
+CREATE TABLE "winter olympics".kategorie ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  ,
+	nadkategoria         varchar(30)  ,
+	CONSTRAINT pk_kategorie PRIMARY KEY ( id )
+ );
+
+CREATE TABLE "winter olympics".obiekty ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  ,
+	typ                  varchar(30)  NOT NULL,
+	adres                varchar(50)  ,
+	miasto               varchar(30)  NOT NULL,
+	CONSTRAINT pk_obiekty PRIMARY KEY ( id )
+ );
+
+CREATE TABLE "winter olympics".panstwa ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  NOT NULL,
+	CONSTRAINT pk_panstwa PRIMARY KEY ( id )
+ );
+
+CREATE TABLE "winter olympics".sedziowie ( 
+	id                   integer  NOT NULL,
+	imie                 varchar(30)  ,
+	nazwisko             varchar(30)  ,
+	CONSTRAINT pk_sedziowie PRIMARY KEY ( id )
+ );
+
+CREATE TABLE "winter olympics".zawodnicy ( 
+	id                   integer  NOT NULL,
+	imie                 varchar(30)  NOT NULL,
+	nazwisko             varchar(30)  NOT NULL,
+	id_panstwa           integer  NOT NULL,
+	plec                 char(1)  NOT NULL,
+	data_urodzenia       date  NOT NULL,
+	CONSTRAINT pk_table_0 PRIMARY KEY ( id ),
+	CONSTRAINT fk_zawodnicy FOREIGN KEY ( id_panstwa ) REFERENCES "winter olympics".panstwa( id )    
+ );
+
+ALTER TABLE "winter olympics".zawodnicy ADD CONSTRAINT ck_plec CHECK ( plec IN ('M','F') );
+
+CREATE INDEX idx_zawodnicy ON "winter olympics".zawodnicy ( id_panstwa );
+
+CREATE TABLE "winter olympics".doping ( 
+	id_zawodnika         integer  ,
+	data_pobrania        date  ,
+	wynik                bool  ,
+	CONSTRAINT fk_doping FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    
+ );
+
+CREATE INDEX idx_doping ON "winter olympics".doping ( id_zawodnika );
+
+CREATE TABLE "winter olympics".dyscypliny ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  NOT NULL,
+	id_kategorii         integer  ,
+	zakonczona           bool DEFAULT false ,
+	CONSTRAINT pk_dyscypliny PRIMARY KEY ( id ),
+	CONSTRAINT fk_dyscypliny FOREIGN KEY ( id_kategorii ) REFERENCES "winter olympics".kategorie( id )    
+ );
+
+CREATE INDEX idx_dyscypliny ON "winter olympics".dyscypliny ( id_kategorii );
+
+CREATE TABLE "winter olympics".dyscypliny_medalisci_ind ( 
+	id_dyscypliny        integer  NOT NULL,
+	id_zawodnika         integer  NOT NULL,
+	medal                integer  NOT NULL,
+	CONSTRAINT idx_dyscypliny_medalisci_ind PRIMARY KEY ( id_dyscypliny, id_zawodnika ),
+	CONSTRAINT fk_dyscypliny_medalisci_ind FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    ,
+	CONSTRAINT fk_dyscypliny_medalisci_ind_0 FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    
+ );
+
+CREATE INDEX idx_dyscypliny_medalisci_ind_0 ON "winter olympics".dyscypliny_medalisci_ind ( id_dyscypliny );
+
+CREATE INDEX idx_dyscypliny_medalisci_ind_1 ON "winter olympics".dyscypliny_medalisci_ind ( id_zawodnika );
+
+CREATE TABLE "winter olympics".rozgrywki ( 
+	id_rozgrywki         integer  NOT NULL,
+	id_dyscypliny        integer  NOT NULL,
+	data_rozgrywki       date  ,
+	id_obiektu           integer  ,
+	id_fazy              integer  NOT NULL,
+	CONSTRAINT pk_rozgrywki PRIMARY KEY ( id_rozgrywki ),
+	CONSTRAINT fk_rozgrywki_0 FOREIGN KEY ( id_obiektu ) REFERENCES "winter olympics".obiekty( id )    ,
+	CONSTRAINT fk_rozgrywki_1 FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    ,
+	CONSTRAINT fk_rozgrywki FOREIGN KEY ( id_fazy ) REFERENCES "winter olympics".fazy( id )    
+ );
+
+CREATE INDEX idx_rozgrywki_0 ON "winter olympics".rozgrywki ( id_obiektu );
+
+CREATE INDEX idx_rozgrywki_1 ON "winter olympics".rozgrywki ( id_dyscypliny );
+
+CREATE INDEX idx_rozgrywki ON "winter olympics".rozgrywki ( id_fazy );
+
+CREATE TABLE "winter olympics".sedziowie_dyscypliny ( 
+	id_sedziego          integer  NOT NULL,
+	id_dyscypliny        integer  NOT NULL,
+	CONSTRAINT idx_sedziowie_dyscypliny_1 PRIMARY KEY ( id_sedziego, id_dyscypliny ),
+	CONSTRAINT fk_sedziowie_dyscypliny FOREIGN KEY ( id_sedziego ) REFERENCES "winter olympics".sedziowie( id )    ,
+	CONSTRAINT fk_sedziowie_dyscypliny_0 FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    
+ );
+
+CREATE INDEX idx_sedziowie_dyscypliny ON "winter olympics".sedziowie_dyscypliny ( id_sedziego );
+
+CREATE INDEX idx_sedziowie_dyscypliny_0 ON "winter olympics".sedziowie_dyscypliny ( id_dyscypliny );
+
+CREATE TABLE "winter olympics".sedziowie_rozgrywki ( 
+	id_rozgrywki         integer  NOT NULL,
+	id_sedziego          integer  NOT NULL,
+	CONSTRAINT idx_sedziowie_rozgrywki_1 PRIMARY KEY ( id_rozgrywki, id_sedziego ),
+	CONSTRAINT fk_sedziowie_rozgrywki FOREIGN KEY ( id_sedziego ) REFERENCES "winter olympics".sedziowie( id )    ,
+	CONSTRAINT fk_sedziowie_rozgrywki_0 FOREIGN KEY ( id_rozgrywki ) REFERENCES "winter olympics".rozgrywki( id_rozgrywki )    
+ );
+
+CREATE INDEX idx_sedziowie_rozgrywki ON "winter olympics".sedziowie_rozgrywki ( id_rozgrywki );
+
+CREATE INDEX idx_sedziowie_rozgrywki_0 ON "winter olympics".sedziowie_rozgrywki ( id_sedziego );
+
+CREATE TABLE "winter olympics".skoki_narciarskie ( 
+	id_zawodnika         integer  NOT NULL,
+	id_rozgrywki         integer  NOT NULL,
+	odleglosc            numeric(4,1)  ,
+	sedzia1              numeric(3,1)  ,
+	sedzia2              numeric(3,1)  ,
+	sedzia3              numeric(3,1)  ,
+	sedzia4              numeric(3,1)  ,
+	sedzia5              numeric(3,1)  ,
+	status               varchar(3) DEFAULT 'OK' NOT NULL,
+	CONSTRAINT idx_skoki_narciarskie_1 PRIMARY KEY ( id_zawodnika, id_rozgrywki ),
+	CONSTRAINT fk_skoki_narciarskie FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    ,
+	CONSTRAINT fk_skoki_narciarskie_0 FOREIGN KEY ( id_rozgrywki ) REFERENCES "winter olympics".rozgrywki( id_rozgrywki )    
+ );
+
+CREATE INDEX idx_skoki_narciarskie ON "winter olympics".skoki_narciarskie ( id_zawodnika );
+
+CREATE INDEX idx_skoki_narciarskie_0 ON "winter olympics".skoki_narciarskie ( id_rozgrywki );
+
+CREATE TABLE "winter olympics".zawodnicy_dyscypliny ( 
+	id_zawodnika         integer  NOT NULL,
+	id_dyscypliny        integer  NOT NULL,
+	CONSTRAINT idx_zawodnicy_dyscypliny_1 PRIMARY KEY ( id_zawodnika, id_dyscypliny ),
+	CONSTRAINT fk_zawodnicy_dyscypliny FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    ,
+	CONSTRAINT fk_zawodnicy_dyscypliny_0 FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    
+ );
+
+CREATE INDEX idx_zawodnicy_dyscypliny ON "winter olympics".zawodnicy_dyscypliny ( id_zawodnika );
+
+CREATE INDEX idx_zawodnicy_dyscypliny_0 ON "winter olympics".zawodnicy_dyscypliny ( id_dyscypliny );
+
+CREATE TABLE "winter olympics".biegi_narciarskie ( 
+	id_zawodnika         integer  NOT NULL,
+	id_rozgrywki         integer  NOT NULL,
+	czas                 numeric  ,
+	status               varchar(3) DEFAULT 'OK' NOT NULL,
+	CONSTRAINT idx_biegi_narciarskie_1 PRIMARY KEY ( id_zawodnika, id_rozgrywki ),
+	CONSTRAINT fk_biegi_narciarskie FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    ,
+	CONSTRAINT fk_biegi_narciarskie_0 FOREIGN KEY ( id_rozgrywki ) REFERENCES "winter olympics".rozgrywki( id_rozgrywki )    
+ );
+
+ALTER TABLE "winter olympics".biegi_narciarskie ADD CONSTRAINT ck_0 CHECK ( status IN ('OK','DNS','DNF','DSQ') );
+
+CREATE INDEX idx_biegi_narciarskie ON "winter olympics".biegi_narciarskie ( id_zawodnika );
+
+CREATE INDEX idx_biegi_narciarskie_0 ON "winter olympics".biegi_narciarskie ( id_rozgrywki );
+
+CREATE TABLE "winter olympics".druzyny ( 
+	id                   integer  NOT NULL,
+	nazwa                varchar(30)  NOT NULL,
+	id_dyscypliny        integer  NOT NULL,
+	id_kraju             integer  NOT NULL,
+	CONSTRAINT pk_druzyny PRIMARY KEY ( id ),
+	CONSTRAINT fk_druzyny FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    ,
+	CONSTRAINT fk_druzyny_0 FOREIGN KEY ( id_kraju ) REFERENCES "winter olympics".panstwa( id )    
+ );
+
+CREATE INDEX idx_druzyny ON "winter olympics".druzyny ( id_dyscypliny );
+
+CREATE INDEX idx_druzyny_0 ON "winter olympics".druzyny ( id_kraju );
+
+CREATE TABLE "winter olympics".dyscypliny_medale_zes ( 
+	id_dyscypliny        integer  NOT NULL,
+	id_druzyny           integer  NOT NULL,
+	medal                integer  NOT NULL,
+	CONSTRAINT idx_dyscypliny_medale_zes PRIMARY KEY ( id_dyscypliny, id_druzyny ),
+	CONSTRAINT fk_dyscypliny_medale_zes_0 FOREIGN KEY ( id_druzyny ) REFERENCES "winter olympics".druzyny( id )    ,
+	CONSTRAINT fk_dyscypliny_medale_zes_1 FOREIGN KEY ( id_dyscypliny ) REFERENCES "winter olympics".dyscypliny( id )    
+ );
+
+CREATE INDEX idx_dyscypliny_medale_zes_0 ON "winter olympics".dyscypliny_medale_zes ( id_dyscypliny );
+
+CREATE INDEX idx_dyscypliny_medale_zes_1 ON "winter olympics".dyscypliny_medale_zes ( id_druzyny );
+
+CREATE TABLE "winter olympics".hokej ( 
+	id_zawodnika         integer  NOT NULL,
+	id_rozgrywki         integer  NOT NULL,
+	bramki               integer  NOT NULL,
+	bramki_samobojcze    integer  NOT NULL,
+	CONSTRAINT idx_hokej_1 PRIMARY KEY ( id_zawodnika, id_rozgrywki ),
+	CONSTRAINT fk_hokej_0 FOREIGN KEY ( id_rozgrywki ) REFERENCES "winter olympics".rozgrywki( id_rozgrywki )    ,
+	CONSTRAINT fk_hokej FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    
+ );
+
+CREATE INDEX idx_hokej_0 ON "winter olympics".hokej ( id_rozgrywki );
+
+CREATE INDEX idx_hokej ON "winter olympics".hokej ( id_zawodnika );
+
+CREATE TABLE "winter olympics".lyzwiarstwo_szybkie ( 
+	id_zawodnika         integer  NOT NULL,
+	id_rozgrywki         integer  NOT NULL,
+	czas                 numeric  ,
 	status               varchar(3) DEFAULT 'OK' NOT NULL,
 	CONSTRAINT idx_lyzwiarstwo_szybkie_1 PRIMARY KEY ( id_zawodnika, id_rozgrywki ),
 	CONSTRAINT fk_lyzwiarstwo_szybkie FOREIGN KEY ( id_zawodnika ) REFERENCES "winter olympics".zawodnicy( id )    ,
