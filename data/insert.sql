@@ -6,6 +6,9 @@ COPY fazy FROM stdin;
 3	cwiercfinal
 4	eliminacje
 5	playoff
+6	mecz o 3 miejsce
+7	seria 1
+8	seria 2
 \.
 
 
@@ -82,7 +85,7 @@ COPY dyscypliny FROM stdin;
 7	 turniej kobiet	 3	true
 8	 turniej mezczyzn	 3	false
 9	 skocznia duza mezczyzn	 11	false
-10	 skocznia normalna mezczyzn	 11	false
+10	 skocznia normalna mezczyzn	 11	true
 11	 skocznia normalna kobiet	 11	false
 12	 konkurs druzynowy mezczyzn	 11	false
 13	 bieg indywidualny kobiet	 7	false
@@ -406,7 +409,7 @@ COPY doping FROM stdin WITH null AS 'null';
 
 COPY obiekty FROM stdin WITH null AS 'null';
 1	 Adler-Arena	tor lyzwiarski	null	 Soczi
-2	 Arena lodowa Szajba	 lodowisko	null	 Soczi
+2	 Arena lodowa Szajba	lodowisko	null	 Soczi
 3	 Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
 \.
 
@@ -418,6 +421,10 @@ COPY rozgrywki FROM stdin;
 5	8	2015-05-15	2	2
 6	2	2015-05-10	1	4
 7	2	2015-05-15	1	1
+8	8	2015-05-14	2	6
+9	7	2015-05-16	2	6
+10	10	2015-05-25	3	7
+11	10	2015-05-25	3	8
 \.
 
 COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
@@ -478,6 +485,48 @@ COPY hokej FROM stdin;
 19	5	1	1	OK
 20	5	1	1	OK
 21	5	1	0	OK
+9	8	0	0	OK
+8	8	1	1	OK
+7	8	0	1	OK
+21 	8	2	0	OK
+20	8	3	0	OK
+19	8	1	1	OK
+6	9	3	0	OK
+5	9	4	0	OK
+4	9	5	1	OK
+18	9	1	0	OK
+17	9	0	0	OK
+16	9	1	2	OK
+\.
+
+COPY skoki_narciarskie FROM stdin;
+25	10	134.5	18.5	18.0	17.5	17.0	16.5	OK
+26	10	140.5	18.0	17.0	16.5	18.5	16.5	OK
+27	10	134.0	18.0	18.0	17.0	17.0	18.0	OK
+28	10	130.5	18.0	16.0	19.5	18.5	16.5	OK
+29	10	112.0	18.5	18.5	17.5	17.0	18.0	OK
+30	10	117.5	18.5	18.0	19.0	19.0	16.5	OK
+31	10	124.5	18.0	19.5	18.5	17.5	18.5	OK
+32	10	120.0	18.5	18.0	17.5	17.0	16.0	OK
+33	10	130.5	16.5	18.5	19.0	19.0	19.0	OK
+34	10	138.0	18.5	16.0	17.5	17.5	16.0	OK
+35	10	110.5	17.5	18.5	16.5	17.0	19.5	OK
+36	10	98.5	18.5	18.0	17.0	19.0	17.5	OK
+37	10	106.5	16.5	17.5	18.5	17.5	16.0	OK
+38	10	142.0	18.5	18.0	18.5	17.0	17.5	OK
+59	10	146.5	19.5	17.5	20.0	16.0	16.0	OK
+60	10	132.0	18.0	18.0	17.5	17.5	17.5	OK
+61	10	130.5	18.5	19.5	18.5	16.0	17.0	OK
+62	10	131.0	20.0	18.0	17.5	17.0	16.5	OK
+59	11	134.5	18.5	18.0	17.5	17.0	16.5	OK
+38	11	140.5	18.0	17.0	16.5	18.5	16.5	OK
+26	11	134.0	18.0	18.0	17.0	17.0	18.0	OK
+34	11	130.5	18.0	16.0	19.5	18.5	16.5	OK
+33	11	112.0	18.5	18.5	17.5	17.0	18.0	OK
+25	11	117.5	18.5	18.0	19.0	19.0	16.5	OK
+27	11	124.5	18.0	19.5	18.5	17.5	18.5	OK
+60	11	120.0	18.5	18.0	17.5	17.0	16.0	OK
+62	11	130.5	16.5	18.5	19.0	19.0	19.0	OK
 \.
 
 COPY dyscypliny_medale_zes FROM stdin;

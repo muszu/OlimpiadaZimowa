@@ -25,7 +25,7 @@ AS(
 	(SELECT w.mecz, w.dr1, w.dr2, w.wynik1, w.wynik2 
 	FROM wyniki w WHERE w.rownumber = 1)
 	
-	SELECT wd.mecz, fa.nazwa, CASE WHEN dy.nazwa LIKE '%kobiet%' THEN 'kobiet' ELSE 'mezczyzn' END,
+	SELECT wd.mecz, fa.nazwa, CASE WHEN dy.nazwa LIKE '%kobiet%' THEN 'kobiet' ELSE 'mezczyzn' END AS plec,
 		pa1.nazwa AS p1, pa2.nazwa AS p2, wd.wynik1 || ' : ' || wd.wynik2
 	FROM wyniki_dist wd JOIN rozgrywki ro ON ro.id_rozgrywki = wd.mecz
 	JOIN fazy fa ON fa.id = ro.id_fazy
@@ -34,4 +34,5 @@ AS(
 	JOIN druzyny d2 ON wd.dr2 = d2.id
 	JOIN panstwa pa1 ON pa1.id = d1.id_kraju
 	JOIN panstwa pa2 ON pa2.id = d2.id_kraju
+	ORDER BY plec, CASE WHEN fa.nazwa LIKE 'final' THEN 0 WHEN fa.nazwa LIKE '%mecz%3%' THEN 1 WHEN fa.nazwa LIKE '%polfinal%' THEN 2 ELSE 3 END
 );
