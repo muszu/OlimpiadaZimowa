@@ -391,6 +391,16 @@ COPY zawodnicy_dyscypliny FROM stdin;
 82	2
 82	4
 83	4
+58	14
+43	14
+44	14
+45	14
+46	14
+49	14
+50	14
+53	14
+54	14
+57	14
 \.
 
 
@@ -409,9 +419,10 @@ COPY doping FROM stdin WITH null AS 'null';
 \.
 
 COPY obiekty FROM stdin WITH null AS 'null';
-1	 Adler-Arena	tor lyzwiarski	null	 Soczi
-2	 Arena lodowa Szajba	lodowisko	null	 Soczi
-3	 Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
+1	Adler-Arena	tor lyzwiarski	null	 Soczi
+2	Arena lodowa Szajba	lodowisko	null	 Soczi
+3	Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
+4	Kompleks Laura	trasa biegowa	null	Krasnaja Polana
 \.
 
 COPY rozgrywki FROM stdin;
@@ -428,6 +439,11 @@ COPY rozgrywki FROM stdin;
 11	10	2015-05-25	3	8
 12	12	2015-05-30	3	7
 13	12	2015-05-30	3	8
+14	16	2015-06-01	4	4
+15	16	2015-06-05	4	1
+16	17	2015-06-10	4	4
+17	17	2015-06-15	4	1
+18	14	2015-06-02	4	4
 \.
 
 COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
@@ -521,7 +537,7 @@ COPY skoki_narciarskie FROM stdin;
 60	10	132.0	18.0	18.0	17.5	17.5	17.5	OK
 61	10	130.5	18.5	19.5	18.5	16.0	17.0	OK
 62	10	131.0	20.0	18.0	17.5	17.0	16.5	OK
-59	11	134.5	18.5	18.0	17.5	17.0	16.5	OK
+59	11	136.0	18.5	18.0	17.5	17.0	16.5	OK
 38	11	140.5	18.0	17.0	16.5	18.5	16.5	OK
 26	11	134.0	18.0	18.0	17.0	17.0	18.0	OK
 34	11	130.5	18.0	16.0	19.5	18.5	16.5	OK
@@ -564,6 +580,188 @@ COPY dyscypliny_medalisci_ind FROM stdin;
 2	82	1
 2	81	2
 2	80	3
+\.
+
+COPY sedziowie_dyscypliny FROM stdin;
+1	9
+1	10
+1	11
+1	12
+2	9
+2	10
+2	11
+2	12
+3	9
+3	10
+3	11
+3	12
+4	9
+4	10
+4	11
+4	12
+5	9
+5	10
+5	11
+5	12
+6	9
+6	10
+6	11
+6	12
+7	9
+7	10
+7	11
+7	12
+8	7
+8	8
+9	7
+9	8
+10	7
+10	8
+11	7
+11	8
+12	7
+12	8
+13	1
+13	2
+13	3
+13	4
+14	1
+14	2
+14	3
+14	4
+15	1
+15	2
+15	3
+15	4
+15	5
+15	6
+16	1
+16	2
+16	3
+16	4
+16	5
+16	6
+17	1
+17	2
+17	3
+17	4
+18	13
+18	14
+18	15
+18	16
+18	17
+18	18
+18	19
+19	13
+19	14
+19	15
+19	16
+19	17
+19	18
+19	19
+20	13
+20	14
+20	15
+20	16
+20	17
+20	18
+20	19
+21	13
+21	14
+21	15
+21	16
+21	17
+21	18
+21	19
+\.
+
+COPY sedziowie_rozgrywki FROM stdin;
+1	8
+1	9
+2	10
+2	11
+3	12
+3	8
+4	9
+4	10
+5	11
+5	12
+8	8
+8	9
+9	10
+9	11
+6	12
+6	13
+6	14
+7	15
+7	16
+7	17
+10	1
+10	2
+10	3
+10	4
+10	5
+11	1
+11	2
+11	3
+11	4
+11	5
+12	6
+12	7
+12	5
+12	4
+12	3
+13	6
+13	7
+13	3
+13	4
+13	5
+\.
+
+
+COPY biegi_narciarskie FROM stdin WITH null AS 'null';
+41	14	65.45	OK
+42	14	68.85	OK
+39	14	63.45	OK
+40	14	62.45	OK
+47	14	61.75	OK
+48	14	60.45	OK
+51	14	70.15	OK
+52	14	65.45	OK
+55	14	null	DNS
+56	14	null	DNS
+39	15	65.45	OK
+40	15	60.45	OK
+41	15	65.45	OK
+42	15	71.30	OK
+47	15	62.55	OK
+48	15	63.65	OK
+43	16	54.45	OK
+44	16	50.25	OK
+45	16	52.45	OK
+46	16	53.85	OK
+49	16	76.45	OK
+50	16	61.95	OK
+53	16	58.45	OK
+54	16	50.15	OK
+57	16	null	DNF
+58	16	null	DNF
+43	17	49.45	OK
+44	17	50.25	OK
+45	17	51.45	OK
+46	17	53.85	OK
+53	17	58.45	OK
+54	17	50.95	OK
+43	18	54.45	OK
+44	18	50.25	OK
+45	18	52.45	OK
+46	18	53.85	OK
+49	18	76.45	OK
+50	18	61.95	OK
+53	18	58.45	OK
+54	18	50.15	OK
+57	18	null	DSQ
+58	18	null	DNF
 \.
 
 COMMIT;
