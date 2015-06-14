@@ -25,11 +25,10 @@ BEGIN
 			SET status='OK'
 			WHERE id_zawodnika = NEW.id_zawodnika AND status='DSQ';
 		END IF;
-		FOR r IN SELECT dys.id_kategorii FROM zawodnicy_dyscypliny zawdy
-		JOIN dyscypliny dys ON dys.id = zawdy.id_dyscypliny
+		FOR r IN SELECT * FROM zawodnicy_dyscypliny zawdy
 		WHERE zawdy.id_zawodnika = NEW.id_zawodnika
 		LOOP
-			PERFORM refresh_medale_ind(r.id_kategorii);
+			PERFORM refresh_medale_ind(r.id_dyscypliny);
 		END LOOP;
 	 RETURN NEW;
 END;

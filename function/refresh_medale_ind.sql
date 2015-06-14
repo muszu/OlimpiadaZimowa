@@ -1,13 +1,26 @@
 CREATE OR REPLACE FUNCTION refresh_medale_ind(x integer) RETURNS void AS $$
 BEGIN
+	DELETE FROM dyscypliny_medale_zes WHERE id_dyscypliny = x;
+	DELETE FROM dyscypliny_medale_ind WHERE id_dyscypliny = x;
 	CASE x
-		--biegi narciarskie
-		WHEN x IN (7) THEN 
-			DELETE
-		--lyzwiarstwo szybkie
-		WHEN x IN (5) THEN result_2
-		--skoki_narciarskie
-		WHEN x IN (11)THEN result_n
+		--biegi narciarskie ind
+		WHEN x IN (13,14,18) THEN
+			
+		--zespolowe
+		WHEN x IN (15,16,17,19) THEN 
+			
+		--lyzwiarstwo szybkie ind
+		WHEN x IN (1,2,3,4) THEN
+			
+		--zespolowe
+		WHEN x IN (5,6) THEN
+			
+		--skoki_narciarskie ind
+		WHEN x IN (9,10,11) THEN
+			
+		--zespolowe
+		WHEN x IN (12) THEN
+			
 	END
 		
 		
