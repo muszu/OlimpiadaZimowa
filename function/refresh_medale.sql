@@ -8,13 +8,11 @@ BEGIN
 			SELECT x, w.id_zawodnika, w.medal
 			FROM wyniki_ind(x) w
 			WHERE w.medal IS NOT NULL;
-		ELSIF x IN (15,16,17,19) THEN 
-			x=x-1;
-			x=x+1;
-		--zespolowe
-		ELSIF x IN (5,6) THEN
-			x=x-1;
-			x=x+1;
+		ELSIF x IN (5,6,15,16,17,19) THEN 
+			INSERT INTO  dyscypliny_medale_zes
+			SELECT x, si.id_druzyny, si.medal
+			FROM dru_wyniki_bezsk_f(x) si
+			WHERE si.medal IS NOT NULL;
 		--skoki_narciarskie ind    7 seria 1    8 seria 2
 		ELSIF x IN (9,10,11) THEN
 			INSERT INTO  dyscypliny_medalisci_ind
