@@ -200,10 +200,13 @@ CREATE INDEX idx_lyzwiarstwo_szybkie_0 ON lyzwiarstwo_szybkie ( id_rozgrywki );
 CREATE TABLE zawodnicy_druzyny ( 
 	id_druzyny           integer  NOT NULL,
 	id_zawodnika         integer  NOT NULL,
-	CONSTRAINT pk_zawodnicy_druzyny UNIQUE ( id_zawodnika ) 
+	CONSTRAINT idx_zawodnicy_druzyny PRIMARY KEY ( id_zawodnika, id_druzyny )
  );
 
-CREATE INDEX idx_zawodnicy_druzyny ON zawodnicy_druzyny ( id_druzyny );
+CREATE INDEX idx_zawodnicy_druzyny ON zawodnicy_druzyny ( id_zawodnika );
+
+CREATE INDEX idx_zawodnicy_druzyny_0 ON zawodnicy_druzyny ( id_druzyny );
+
 
 ALTER TABLE biegi_narciarskie ADD CONSTRAINT fk_biegi_narciarskie 
 FOREIGN KEY ( id_zawodnika ) REFERENCES zawodnicy( id );
