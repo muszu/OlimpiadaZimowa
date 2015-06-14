@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION zabron() RETURNS trigger AS $zabron$
 DECLARE
  dysc INTEGER;
 BEGIN
- dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id = NEW.id_rozgrywki);
+ dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id_rozgrywki = NEW.id_rozgrywki);
  IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RETURN NULL;
  ELSE RETURN NEW;
 END IF; 

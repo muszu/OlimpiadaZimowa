@@ -1,13 +1,13 @@
 
-CREATE OR REPLACE FUNCTION sprawdz1() RETURNS trigger AS $sprawdz$
+CREATE OR REPLACE FUNCTION sprawdz1() RETURNS trigger AS $sprawdz1$
 BEGIN
  IF(NEW.status = 'OK' AND NEW.czas IS NULL) THEN RETURN NULL;
  ELSE RETURN NEW;
 END IF; 
 END;
-$sprawdz$ LANGUAGE plpgsql;
+$sprawdz1$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION sprawdz2() RETURNS trigger AS $sprawdz$
+CREATE OR REPLACE FUNCTION sprawdz2() RETURNS trigger AS $sprawdz2$
 BEGIN
  IF(NEW.status = 'OK' AND (NEW.odleglosc IS NULL OR NEW.sedzia1 IS NULL 
 			OR NEW.sedzia2 IS NULL OR NEW.sedzia3 IS NULL 
@@ -16,7 +16,7 @@ BEGIN
  ELSE RETURN NEW;
 END IF; 
 END;
-$sprawdz$ LANGUAGE plpgsql;
+$sprawdz2$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER sprawdz_l BEFORE INSERT ON lyzwiarstwo_szybkie

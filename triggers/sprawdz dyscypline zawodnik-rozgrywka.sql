@@ -10,7 +10,7 @@ jest = false;
 
 FOR r IN (SELECT id_dyscypliny FROM zawodnicy_dyscypliny WHERE id_zawodnika = NEW.id_zawodnika)
 LOOP
- IF(r.id_dyscypliny = dysc) THEN jest = 1;
+ IF(r.id_dyscypliny = dysc) THEN jest = TRUE;
  END IF;
 END LOOP;
 
