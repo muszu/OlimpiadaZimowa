@@ -4,8 +4,6 @@ DECLARE
 	suma1 numeric(4,1);
 	suma2 numeric(4,1);
 	suma3 numeric(4,1);
-	tempsuma numeric(4,1);
-	iterator integer;
 	r record;
 BEGIN
 	IF x NOT IN (9,10,11) THEN
@@ -14,8 +12,6 @@ BEGIN
 	suma1=-42;
 	suma2=-42;
 	suma3=-42;
-	iterator = 1;
-	tempsuma=-43;
 	FOR r IN SELECT B.suma AS s, row_number() over(order by B.suma DESC) AS rn
 	FROM (
 	SELECT A.suma AS suma FROM 
@@ -27,8 +23,8 @@ BEGIN
 		FROM skoki_narciarskie s1
 		JOIN skoki_narciarskie s2 ON s1.id_zawodnika = s2.id_zawodnika
 		WHERE s1.status = 'OK' AND s2.status = 'OK' 
-		AND s1.id_rozgrywki IN (SELECT id_rozgrywki FROM rozgrywki WHERE id_fazy = 7 AND id_dyscypliny = 10)
-		AND s2.id_rozgrywki IN (SELECT id_rozgrywki	FROM rozgrywki WHERE id_fazy = 8 AND id_dyscypliny = 10)
+		AND s1.id_rozgrywki IN (SELECT id_rozgrywki FROM rozgrywki WHERE id_fazy = 7 AND id_dyscypliny = x)
+		AND s2.id_rozgrywki IN (SELECT id_rozgrywki	FROM rozgrywki WHERE id_fazy = 8 AND id_dyscypliny = x)
 		ORDER BY suma DESC) AS A
 		) B
 	LOOP
