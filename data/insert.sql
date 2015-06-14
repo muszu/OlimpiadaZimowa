@@ -409,9 +409,10 @@ COPY doping FROM stdin WITH null AS 'null';
 \.
 
 COPY obiekty FROM stdin WITH null AS 'null';
-1	 Adler-Arena	tor lyzwiarski	null	 Soczi
-2	 Arena lodowa Szajba	lodowisko	null	 Soczi
-3	 Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
+1	Adler-Arena	tor lyzwiarski	null	 Soczi
+2	Arena lodowa Szajba	lodowisko	null	 Soczi
+3	Russkije Gorki	skocznia narciarska	null	 Krasnaja Polana
+4	Kompleks Laura	trasa biegowa	null	Krasnaja Polana
 \.
 
 COPY rozgrywki FROM stdin;
@@ -428,6 +429,10 @@ COPY rozgrywki FROM stdin;
 11	10	2015-05-25	3	8
 12	12	2015-05-30	3	7
 13	12	2015-05-30	3	8
+14	16	2015-06-01	4	2
+15	16	2015-06-05	4	1
+16	17	2015-06-10	4	2
+17	17	2015-06-15	4	1
 \.
 
 COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
@@ -703,7 +708,40 @@ COPY sedziowie_rozgrywki FROM stdin;
 \.
 
 
-
+COPY biegi_narciarskie FROM stdin WITH null AS 'null';
+41	14	65.45	OK
+42	14	68.85	OK
+39	14	63.45	OK
+40	14	62.45	OK
+47	14	61.75	OK
+48	14	60.45	OK
+51	14	70.15	OK
+52	14	65.45	OK
+55	14	null	DNS
+56	14	null	DNS
+39	15	65.45	OK
+40	15	60.45	OK
+41	15	65.45	OK
+42	15	71.30	OK
+47	15	62.55	OK
+48	15	63.65	OK
+43	16	54.45	OK
+44	16	50.25	OK
+45	16	52.45	OK
+46	16	53.85	OK
+49	16	76.45	OK
+50	16	61.95	OK
+53	16	58.45	OK
+54	16	50.15	OK
+57	16	null	DNF
+58	16	null	DNF
+43	17	49.45	OK
+44	17	50.25	OK
+45	17	51.45	OK
+46	17	53.85	OK
+53	17	58.45	OK
+54	17	50.95	OK
+\.
 
 COMMIT;
 
