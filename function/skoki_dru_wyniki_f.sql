@@ -22,13 +22,14 @@ BEGIN
 	iterator = 1;
 	FOR r IN SELECT  DISTINCT ws.punkty FROM wyniki_skoki_druzynowe(x) ws ORDER BY 1 DESC
 	LOOP
-		IF (iterator = 1) THEN suma1 = r.punkty; iterator=iterator+1; END IF;
-		IF (iterator = 2) THEN suma2 = r.punkty; iterator=iterator+1; END IF;
-		IF (iterator = 3) THEN suma3 = r.punkty; iterator=iterator+1; END IF;
+		IF (suma1 = -42) THEN suma1 = r.punkty;
+		ELSIF (suma2 = -42) THEN suma2 = r.punkty;
+		ELSIF (suma3 = -42) THEN suma3 = r.punkty;
+		END IF;
 	END LOOP;
 	FOR r IN SELECT ws.* FROM wyniki_skoki_druzynowe(x) ws
 	LOOP
-		IF (r.punkty = suma1) THEN liczba1=liczba1+1; END IF;
+		IF (r.punkty = suma1) THEN liczba1 = liczba1+1; END IF;
 		IF (r.punkty = suma2) THEN liczba2 = liczba2+1; END IF;
 		IF (r.punkty = suma3) THEN liczba3 = liczba3+1; END IF;
 	END LOOP;
