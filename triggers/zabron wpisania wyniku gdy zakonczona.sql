@@ -4,7 +4,7 @@ DECLARE
  dysc INTEGER;
 BEGIN
  dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id_rozgrywki = NEW.id_rozgrywki);
- IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RETURN NULL;
+ IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RAISE EXCEPTION 'Dyscyplina zakonczona';
  ELSE RETURN NEW;
 END IF; 
 END;

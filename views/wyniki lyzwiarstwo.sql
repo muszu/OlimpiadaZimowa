@@ -1,4 +1,4 @@
-CREATE VIEW wyniki_lyzwiarstwo_szybkie
+CREATE VIEW wyniki_lyzwiarstwo
 (konkurencja, id_rozgrywki, faza, id_zawodnika, imie, nazwisko, panstwo, czas, status)
 AS
 (SELECT dy.nazwa, ro.id_rozgrywki, fa.nazwa, ly.id_zawodnika, 

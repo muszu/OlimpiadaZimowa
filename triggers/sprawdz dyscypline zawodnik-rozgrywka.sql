@@ -15,20 +15,20 @@ LOOP
 END LOOP;
 
 IF(jest = TRUE) THEN RETURN NEW;
-ELSE RETURN NULL;
+ELSE RAISE EXCEPTION 'Zawodnik nie bierze udzialu w tej dyscyplinie';
 END IF;
 END;
 $sprawdz_dyscypline$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER sprawdz_dyscypline_h BEFORE INSERT ON hokej
+CREATE TRIGGER sprawdz_dyscypline_h BEFORE INSERT OR UPDATE ON hokej
 FOR EACH ROW EXECUTE PROCEDURE sprawdz_dyscypline();
 
-CREATE TRIGGER sprawdz_dyscypline_s BEFORE INSERT ON skoki_narciarskie
+CREATE TRIGGER sprawdz_dyscypline_s BEFORE INSERT OR UPDATE ON skoki_narciarskie
 FOR EACH ROW EXECUTE PROCEDURE sprawdz_dyscypline();
 
-CREATE TRIGGER sprawdz_dyscypline_l BEFORE INSERT ON lyzwiarstwo_szybkie
+CREATE TRIGGER sprawdz_dyscypline_l BEFORE INSERT OR UPDATE ON lyzwiarstwo_szybkie
 FOR EACH ROW EXECUTE PROCEDURE sprawdz_dyscypline();
 
-CREATE TRIGGER sprawdz_dyscypline_b BEFORE INSERT ON biegi_narciarskie
+CREATE TRIGGER sprawdz_dyscypline_b BEFORE INSERT OR UPDATE ON biegi_narciarskie
 FOR EACH ROW EXECUTE PROCEDURE sprawdz_dyscypline();
