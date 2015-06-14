@@ -1,9 +1,29 @@
---UPDATE TABLICY MEDALOWEJ JESZCZE DO ZROBIENIA!!!!!
-CREATE OR REPLACE FUNCTION doping_change() RETURNS trigger AS $$
-DECLARE
-	r record;
+CREATE OR REPLACE FUNCTION refresh_medale_ind(x integer) RETURNS void AS $$
 BEGIN
-		IF( NEW.wynik )
+	CASE x
+		--biegi narciarskie
+		WHEN x IN (7) THEN 
+			DELETE
+		--lyzwiarstwo szybkie
+		WHEN x IN (5) THEN result_2
+		--skoki_narciarskie
+		WHEN x IN (11)THEN result_n
+	END
+		
+		
+		
+		
+	RETURN;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+IF( x IN () )
+
+	PERFORM refresh_medale_ind(2);
+			IF( NEW.wynik )
 		THEN
 			UPDATE biegi_narciarskie
 			SET status='DSQ'
@@ -25,18 +45,7 @@ BEGIN
 			SET status='OK'
 			WHERE id_zawodnika = NEW.id_zawodnika AND status='DSQ';
 		END IF;
-		FOR r IN SELECT dys.id_kategorii FROM zawodnicy_dyscypliny zawdy
-		JOIN dyscypliny dys ON dys.id = zawdy.id_dyscypliny
-		WHERE zawdy.id_zawodnika = NEW.id_zawodnika
+		FOR r IN SELECT id_dyscypliny FROM rozgrywki
 		LOOP
-			PERFORM refresh_medale_ind(r.id_kategorii);
+			PERFORM refresh_medale_ind(r.id_dyscypliny);
 		END LOOP;
-	 RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE TRIGGER doping_change AFTER UPDATE OR INSERT ON doping
-FOR EACH ROW EXECUTE PROCEDURE doping_change();
-
-
