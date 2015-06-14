@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION skoki_dru_wyniki_f(x integer) 
-RETURNS TABLE(	dyscyplina integer, id_zawodnika integer, id_druzyny integer, medal integer, suma numeric(4,1)) AS $$
+RETURNS TABLE(	dyscyplina integer, id_druzyny integer, medal integer, suma numeric(5,1) ) AS $$
 DECLARE
 	suma1 numeric(4,1);
 	suma2 numeric(4,1);
@@ -29,7 +29,8 @@ BEGIN
 	SELECT x, wsd.id_druzyny, CASE WHEN wsd.punkty = suma1 THEN 1
 					 WHEN wsd.punkty = suma2 THEN 2
 					 WHEN wsd.punkty = suma3 THEN 3
-				END
+				END,
+				wsd.punkty
 	FROM wyniki_skoki_druzynowe(x) wsd WHERE wsd.punkty;
 END;
 $$ LANGUAGE plpgsql;
