@@ -17,7 +17,7 @@ DECLARE r record;
     BEGIN
         FOR r IN SELECT ns.nspname, proname, proargtypes FROM pg_proc INNER JOIN pg_namespace ns ON (pg_proc.pronamespace = ns.oid)
  where nspname = 'public' AND proname IN('refresh_medale_ind','refresh_test' ,'doping_change' ,'test' ,'test' ,'refresh_medale_ind' ,'wyniki_skoki' ,'wyniki_skoki_seria' ,
-'refresh_medale' ,'sprawdz1','odswiez' ,'zabron_sedz' ,'zabron_lyzw' ,'sprawdz2' ,'sprawdz_dyscypline' ,'sprawdz_plec' ,
+'refresh_medale' ,'sprawdz1','odswiez' ,'zabron_sedz' ,'zabron_lyzw' ,'sprawdz2' ,'sprawdz_dyscypline' ,'_dysc_plec' ,
 'zabron_hokej' ,'sedziowie_delete_check' ,'sprawdz_plec_kraj' ,'zabron_biegi' ,'zabron_skoki' ,'odswiez_medale' ,
 'wyniki_dru_bezsk' ,'wyniki_ind' ,'wyniki_skoki_druzynowe' ,'zabron' ,'skoki_dru_wyniki_f' ,'skoki_ind_wyniki_f' ,
 'wyniki_ind_bezwyjatku' ,'skoki_update' ,'dru_wyniki_bezsk_f' ,'tabela_medalowa_nadkategoria' ,
@@ -1704,7 +1704,7 @@ LANGUAGE SQL;
 DECLARE
 	r record;
 BEGIN
-		IF( NEW.wynik )
+		IF( NEW.wynik = true )
 		THEN
 			UPDATE biegi_narciarskie
 			SET status='DSQ'
@@ -1754,6 +1754,8 @@ BEGIN
 		JOIN sedziowie_dyscypliny sd1 ON s.id = sd1.id_sedziego 
 		WHERE sd1.id_dyscypliny=r.id_dyscypliny AND s.id != OLD.id
 		LOOP
+			IF ( ( SELECT COUNT(*) FROM sedziowie_rozgrywki WHERE id_sedziego = u.id AND id_rozgrywki = r.id_rozgrywki) = 0 )
+			THEN
 			IF( (SELECT COALESCE(COUNT(*),0) FROM rozgrywki roz2 
 			JOIN sedziowie_rozgrywki sr2 ON roz2.id_rozgrywki = sr2.id_rozgrywki 
 			WHERE sr2.id_sedziego=u.id
@@ -1762,6 +1764,7 @@ BEGIN
 			THEN
 				zastepstwo = u.id;
 				EXIT;
+			END IF;
 			END IF;
 		END LOOP;
 		IF zastepstwo=-1
@@ -1834,7 +1837,7 @@ CREATE OR REPLACE FUNCTION sprawdz2() RETURNS trigger AS $sprawdz2$
 BEGIN
  IF(NEW.status = 'OK' AND (NEW.odleglosc IS NULL OR NEW.sedzia1 IS NULL 
 			OR NEW.sedzia2 IS NULL OR NEW.sedzia3 IS NULL 
-			OR NEW.sedzia4 IS NULL OR NEW.sedzi5 IS NULL)) 
+			OR NEW.sedzia4 IS NULL OR NEW.sedzia5 IS NULL)) 
 	THEN RAISE EXCEPTION 'Punkty nie moga byc nullem';
  ELSE RETURN NEW;
 END IF; 
@@ -1855,17 +1858,19 @@ FOR EACH ROW EXECUTE PROCEDURE sprawdz2();
 
 CREATE OR REPLACE FUNCTION sprawdz_dyscypline() RETURNS trigger AS $sprawdz_dyscypline$
 DECLARE
- dysc INTEGER;
- r zawodnicy_dyscypliny%rowtype;
+ dysc record;
+ r record;
  jest BOOLEAN;
 BEGIN
-dysc = (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki);
-jest = false;
 
+jest = false;
+FOR dysc IN (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki)
+LOOP
 FOR r IN (SELECT id_dyscypliny FROM zawodnicy_dyscypliny WHERE id_zawodnika = NEW.id_zawodnika)
 LOOP
- IF(r.id_dyscypliny = dysc) THEN jest = TRUE;
+ IF(r.id_dyscypliny = dysc.id_dyscypliny) THEN jest = TRUE;
  END IF;
+END LOOP;
 END LOOP;
 
 IF(jest = TRUE) THEN RETURN NEW;
@@ -1974,10 +1979,10 @@ $zabron_lyzw$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION zabron() RETURNS trigger AS $zabron$
 DECLARE
- dysc INTEGER;
+ dysc record;
 BEGIN
  dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id_rozgrywki = NEW.id_rozgrywki);
- IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RAISE EXCEPTION 'Dyscyplina zakonczona';
+ IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc.id_dyscypliny) = TRUE) THEN RAISE EXCEPTION 'Dyscyplina zakonczona';
  ELSE RETURN NEW;
 END IF; 
 END;
@@ -1985,15 +1990,16 @@ $zabron$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION zabron_sedz() RETURNS trigger AS $zabron_sedz$
 DECLARE
- r sedziowie_dyscypliny%rowtype;
- dysc_rozgr INTEGER;
+ r record;
+ dysc_rozgr record;
 BEGIN
- dysc_rozgr = (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki);
-
+FOR dysc_rozgr IN (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki)
+LOOP 
  FOR r IN (SELECT id_dyscypliny FROM sedziowie_dyscypliny WHERE id_sedziego = NEW.id_sedziego)
  LOOP
-	IF(r.id_dyscypliny = dysc_rozgr) THEN RETURN NEW;
+	IF(r.id_dyscypliny = dysc_rozgr.id_dyscypliny) THEN RETURN NEW;
 	END IF;
+ END LOOP;
  END LOOP;
 RAISE EXCEPTION 'Sedzia nie sedziuje tej dyscypliny';
 END;
@@ -2011,7 +2017,7 @@ FOR EACH ROW EXECUTE PROCEDURE zabron();
 CREATE TRIGGER zabron_s BEFORE INSERT ON skoki_narciarskie
 FOR EACH ROW EXECUTE PROCEDURE zabron();
 
-CREATE TRIGGER zabron_sedz BEFORE INSERT OR UPDATE ON sedziowie_rozgrywki
+CREATE TRIGGER zabron_sedz BEFORE INSERT ON sedziowie_rozgrywki
 FOR EACH ROW EXECUTE PROCEDURE zabron_sedz();
 
 
@@ -2032,8 +2038,8 @@ BEGIN
 END;
 $zabron_skoki$ LANGUAGE plpgsql;
 
-CREATE TRIGGER zabron_skoki BEFORE INSERT OR UPDATE ON skoki_narciarskie
-FOR EACH ROW EXECUTE PROCEDURE zabron_skoki();
+--CREATE TRIGGER zabron_skoki BEFORE INSERT OR UPDATE ON skoki_narciarskie
+--FOR EACH ROW EXECUTE PROCEDURE zabron_skoki();
 
 
  
