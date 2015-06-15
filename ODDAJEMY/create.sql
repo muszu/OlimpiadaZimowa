@@ -1340,21 +1340,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS tabela_medalowa_nadkategoria(TEXT);
-CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria(TEXT)
-    RETURNS TABLE (panstwo int, zloto int, srebro int, braz int, suma int) AS $$
-
-    SELECT panstwo, COALESCE(A.zloto,0)+COALESCE(B.zloto,0),
-            COALESCE(A.srebro,0)+COALESCE(B.srebro,0),
-            COALESCE(A.braz,0)+COALESCE(B.braz,0),
-            COALESCE(A.suma,0)+COALESCE(B.suma,0)
-	FROM (SELECT * FROM tabela_medalowa_nadkategoria_ind($1)) A
-            FULL OUTER JOIN (SELECT * FROM tabela_medalowa_nadkategoria_zes($1)) B USING(panstwo)
-	ORDER BY 2 DESC, 3 DESC, 4 DESC
-$$ LANGUAGE SQL;
-
-
-DROP FUNCTION IF EXISTS tabela_medalowa_nadkategoria_ind(TEXT);
 CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria_ind(TEXT)
     RETURNS TABLE (panstwo int, zloto int, srebro int, braz int, suma int) AS $$
 
@@ -1371,7 +1356,8 @@ CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria_ind(TEXT)
 	GROUP BY pa.id ORDER BY 2 DESC, 3 DESC, 4 DESC
 $$ LANGUAGE SQL;
 
-DROP FUNCTION IF EXISTS tabela_medalowa_nadkategoria_zes(TEXT);
+
+
 CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria_zes(TEXT)
     RETURNS TABLE (panstwo int, zloto int, srebro int, braz int, suma int) AS $$
 
@@ -1387,6 +1373,24 @@ CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria_zes(TEXT)
                                     WHERE kat.nadkategoria = $1)
 	GROUP BY pa.id ORDER BY 2 DESC, 3 DESC, 4 DESC
 $$ LANGUAGE SQL;
+
+
+
+CREATE OR REPLACE FUNCTION tabela_medalowa_nadkategoria(TEXT)
+    RETURNS TABLE (panstwo int, zloto int, srebro int, braz int, suma int) AS $$
+
+    SELECT panstwo, COALESCE(A.zloto,0)+COALESCE(B.zloto,0),
+            COALESCE(A.srebro,0)+COALESCE(B.srebro,0),
+            COALESCE(A.braz,0)+COALESCE(B.braz,0),
+            COALESCE(A.suma,0)+COALESCE(B.suma,0)
+	FROM (SELECT * FROM tabela_medalowa_nadkategoria_ind($1)) A
+            FULL OUTER JOIN (SELECT * FROM tabela_medalowa_nadkategoria_zes($1)) B USING(panstwo)
+	ORDER BY 2 DESC, 3 DESC, 4 DESC
+$$ LANGUAGE SQL;
+
+
+
+
 
 CREATE OR REPLACE FUNCTION wyniki_skoki_seria(INT) RETURNS TABLE (id_zawodnika INT, punkty NUMERIC(5,1)) AS $$
 SELECT id_zawodnika,
@@ -1939,6 +1943,30 @@ END;
 $zabron_lyzw$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION zabron() RETURNS trigger AS $zabron$
+DECLARE
+ dysc INTEGER;
+BEGIN
+ dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id_rozgrywki = NEW.id_rozgrywki);
+ IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RAISE EXCEPTION 'Dyscyplina zakonczona';
+ ELSE RETURN NEW;
+END IF; 
+END;
+$zabron$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION zabron_sedz() RETURNS trigger AS $zabron_sedz$
+DECLARE
+ r sedziowie_dyscypliny%rowtype;
+ dysc_rozgr INTEGER;
+BEGIN
+ dysc_rozgr = (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki);
+
+ FOR r IN (SELECT id_dyscypliny FROM sedziowie_dyscypliny WHERE id_sedziego = NEW.id_sedziego)
+ LOOP
+	IF(r.id_dyscypliny = dysc_rozgr) THEN RETURN NEW;
+	END IF;
+ END LOOP;
+
 CREATE TRIGGER zabron_h BEFORE INSERT ON hokej
 FOR EACH ROW EXECUTE PROCEDURE zabron();
 
@@ -1956,16 +1984,7 @@ FOR EACH ROW EXECUTE PROCEDURE zabron_sedz();
 
 
 
-CREATE OR REPLACE FUNCTION zabron() RETURNS trigger AS $zabron$
-DECLARE
- dysc INTEGER;
-BEGIN
- dysc = (SELECT r.id_dyscypliny FROM rozgrywki r WHERE r.id_rozgrywki = NEW.id_rozgrywki);
- IF((SELECT d.zakonczona FROM dyscypliny d WHERE d.id = dysc) = TRUE) THEN RAISE EXCEPTION 'Dyscyplina zakonczona';
- ELSE RETURN NEW;
-END IF; 
-END;
-$zabron$ LANGUAGE plpgsql;
+
 
 
 
@@ -1984,18 +2003,7 @@ $zabron_skoki$ LANGUAGE plpgsql;
 CREATE TRIGGER zabron_skoki BEFORE INSERT OR UPDATE ON skoki_narciarskie
 FOR EACH ROW EXECUTE PROCEDURE zabron_skoki();
 
-CREATE OR REPLACE FUNCTION zabron_sedz() RETURNS trigger AS $zabron_sedz$
-DECLARE
- r sedziowie_dyscypliny%rowtype;
- dysc_rozgr INTEGER;
-BEGIN
- dysc_rozgr = (SELECT id_dyscypliny FROM rozgrywki WHERE id_rozgrywki = NEW.id_rozgrywki);
 
- FOR r IN (SELECT id_dyscypliny FROM sedziowie_dyscypliny WHERE id_sedziego = NEW.id_sedziego)
- LOOP
-	IF(r.id_dyscypliny = dysc_rozgr) THEN RETURN NEW;
-	END IF;
- END LOOP;
  
  CREATE TRIGGER zabron_lyzw BEFORE INSERT OR UPDATE ON lyzwiarstwo_szybkie
 FOR EACH ROW EXECUTE PROCEDURE zabron_lyzw();
