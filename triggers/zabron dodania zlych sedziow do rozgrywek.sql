@@ -12,7 +12,7 @@ BEGIN
 	END IF;
  END LOOP;
 
-RETURN NULL;
+RAISE EXCEPTION 'Sedzia nie sedziuje tej dyscypliny';
 END;
 $zabron_sedz$ LANGUAGE plpgsql;
 

@@ -466,7 +466,7 @@ COPY lyzwiarstwo_szybkie FROM stdin WITH null AS 'null';
 64	6	null	DNF
 63	6	73.34	OK
 82	7	66.10	OK
-81	7	66.36	OK
+81	7	66.10	OK
 80	7	66.77	OK
 79	7	66.98	OK
 78	7	null	DNF

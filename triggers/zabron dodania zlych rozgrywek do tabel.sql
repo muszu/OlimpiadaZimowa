@@ -4,7 +4,7 @@ BEGIN
  
  IF((SELECT k.nazwa FROM kategorie k JOIN dyscypliny d ON d.id_kategorii = k.id JOIN rozgrywki r ON d.id = r.id_dyscypliny
  WHERE r.id_rozgrywki = NEW.id_rozgrywki) != 'hokej na lodzie')
-	THEN RETURN NULL;
+	THEN RAISE EXCEPTION 'Rozgrywka nie jest z tej dyscypliny';
  ELSE RETURN NEW;
  END IF;
 
@@ -23,7 +23,7 @@ BEGIN
  
  IF((SELECT k.nazwa FROM kategorie k JOIN dyscypliny d ON d.id_kategorii = k.id JOIN rozgrywki r ON d.id = r.id_dyscypliny
  WHERE r.id_rozgrywki = NEW.id_rozgrywki) != 'lyzwiarstwo szybkie')
-	THEN RETURN NULL;
+	THEN RAISE EXCEPTION 'Rozgrywka nie jest z tej dyscypliny';
  ELSE RETURN NEW;
  END IF;
 
@@ -41,7 +41,7 @@ BEGIN
  
  IF((SELECT k.nazwa FROM kategorie k JOIN dyscypliny d ON d.id_kategorii = k.id JOIN rozgrywki r ON d.id = r.id_dyscypliny
  WHERE r.id_rozgrywki = NEW.id_rozgrywki) != 'biegi narciarskie')
-	THEN RETURN NULL;
+	THEN RAISE EXCEPTION 'Rozgrywka nie jest z tej dyscypliny';
  ELSE RETURN NEW;
  END IF;
 
@@ -59,7 +59,7 @@ BEGIN
  
  IF((SELECT k.nazwa FROM kategorie k JOIN dyscypliny d ON d.id_kategorii = k.id JOIN rozgrywki r ON d.id = r.id_dyscypliny
  WHERE r.id_rozgrywki = NEW.id_rozgrywki) != 'skoki narciarskie')
-	THEN RETURN NULL;
+	THEN RAISE EXCEPTION 'Rozgrywka nie jest z tej dyscypliny';
  ELSE RETURN NEW;
  END IF;
 
