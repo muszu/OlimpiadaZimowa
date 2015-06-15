@@ -2028,3 +2028,16 @@ FOR EACH ROW EXECUTE PROCEDURE zabron_biegi();
 RAISE EXCEPTION 'Sedzia nie sedziuje tej dyscypliny';
 END;
 $zabron_sedz$ LANGUAGE plpgsql;
+
+
+ CREATE OR REPLACE FUNCTION  odswiez() RETURNS trigger AS $$
+BEGIN
+	IF (NEW.zakonczona) THEN
+	PERFORM  odswiez_medale( NEW.id );
+END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER odswiez  AFTER INSERT OR UPDATE ON dyscypliny
+FOR EACH ROW EXECUTE PROCEDURE odswiez();

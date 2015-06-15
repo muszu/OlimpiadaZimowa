@@ -1,0 +1,18 @@
+CREATE TRIGGER odswiez AFTER INSERT OR UPDATE ON dyscypliny 
+FOR EACH ROW
+
+
+
+
+
+ CREATE OR REPLACE FUNCTION  odswiez() RETURNS trigger AS $$
+BEGIN
+	IF (NEW.zakonczona) THEN
+	PERFORM  odswiez_medale( NEW.id );
+END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER odswiez  AFTER INSERT OR UPDATE ON dyscypliny
+FOR EACH ROW EXECUTE PROCEDURE odswiez();
