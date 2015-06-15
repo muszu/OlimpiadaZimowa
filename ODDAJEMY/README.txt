@@ -14,6 +14,8 @@ Triggery:
 	jeœli wynik jest pozytywny, ustawia wszystkie statusy zawodnika na 'DSQ' i wywo³uje funkcjê aktualizuj¹c¹ klasyfikacjê medalow¹
 - before delete on sedziowie
 	jeœli jest mo¿liwoœæ, znajduje zastêpstwo i wpisuje do tabeli sedziowie_rozgrywki
+- before insert/update on skoki_narciarskie
+	sprawdza/poprawia dane
 - before insert/update on biegi_narciarskie, skoki_narciarskie, lyzwiarstwo_szybkie
 	sprawdza, czy w pola definiuj¹ce wynik zawodnika nie s¹ puste (o ile zawodnik ma status 'OK')
 - before insert/update on biegi_narciarskie, skoki_narciarskie, lyzwiarstwo_szybkie, hokej
@@ -34,4 +36,19 @@ Funkcje
 - skoki_dru_wyniki_f(integer id_dysc) - przyznaje medale i zwraca wyniki fina³u dyscypliny indywidualnej, której wynikiem jest suma punktow (tylko skoki)
 - skoki_ind_wyniki_f(integer id_dysc)  - przyznaje medale i zwraca wyniki fina³u dyscypliny dru¿ynowej, której wynikiem jest suma punktow (tylko skoki)
 - odswiez_medale(integer id_dysc) - na nowo przyznaje medale w danej dyscyplinie i usuwa stare - nieaktualne
+- wyniki_skoki_seria(id rozgrywki INT) - wyœwietla wyniki serii skoków narciarskich
+- wyniki_skoki (id_dyscypliny INT) - wyœwietla wyniki zawodków skoków narciarskich
+- wyniki_skoki_druzynowe (id_dyscypliny INT) - 	wyœwietla wyniki zawodów dru¿nowych
+wyœwietlaj¹ najm³odszych/najstarszych medalistów inwywidualnych/zespo³owych/w ogóle:
+- najmlodsi_medalisci_ind()
+- najstarsi_medalisci_ind()
+- najmlodsi_medalisci_zes()
+- najstarsi_medalisci_zes()
+- najmlodsi_medalisci()
+- najstarsi_medalisci()
+wyœwietla tabele medalowe dla konkretnych nadkategorii
+- tabela_medalowa_nadkategorie_ind(TEXT)
+- tabela_medalowa_nadkategorie_zes(TEXT)
+- tabela_medalowa_nadkategorie(TEXT)
+	
 
