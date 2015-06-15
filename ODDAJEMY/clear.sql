@@ -23,7 +23,7 @@ DECLARE r record;
 'wyniki_ind_bezwyjatku' ,'skoki_update' ,'dru_wyniki_bezsk_f' ,'tabela_medalowa_nadkategoria' ,
 'tabela_medalowa_nadkategoria_ind' ,'tabela_medalowa_nadkategoria_zes')
         LOOP
-			EXECUTE 'DROP FUNCTION ' || r.nspname || '.' || r.proname || '(' || oidvectortypes(r.proargtypes) || ') CASCADE;';
+			EXECUTE 'DROP FUNCTION IF EXISTS ' || r.nspname || '.' || r.proname || '(' || oidvectortypes(r.proargtypes) || ') CASCADE;';
         END LOOP;
     END
 	$$;	
