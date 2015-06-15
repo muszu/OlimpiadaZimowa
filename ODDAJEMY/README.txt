@@ -1,3 +1,8 @@
+				Olimpiada sportowa
+Twórcy:
+Aleksandra Mêdrek, Marcin Muszalski, Jakub Szarawarski
+
+
 Widoki:
 - tabela_medalowa - wyœwietla wszystkie pañstwa bior¹ce udzia³ w olimpiadzie i liczbê zdobytych przez nie medali
 - multimedalisci - wyœwietla wszystkich uczestników olimpiady i liczbê zdobytych przez nich medali (w tym dru¿ynowo)
@@ -24,7 +29,9 @@ Triggery:
 
 
 Funkcje
-- wyniki_ind(integer id_dysc) - przyznaje medale i zwraca wyniki fina³u dyscypliny indywidualnej, której wynikiem jest czas
+- wyniki_ind(integer id_dysc) - przyznaje medale i zwraca wyniki fina³u dyscypliny indywidualnej, której wynikiem jest czas (bez skoków)
+- dru_wyniki_bezsk_f(integer id_dysc)  - przyznaje medale i zwraca wyniki fina³u dyscypliny dru¿ynowej, której wynikiem jest suma czasów (bez skoków)
+- skoki_dru_wyniki_f(integer id_dysc) - przyznaje medale i zwraca wyniki fina³u dyscypliny indywidualnej, której wynikiem jest suma punktow (tylko skoki)
+- skoki_ind_wyniki_f(integer id_dysc)  - przyznaje medale i zwraca wyniki fina³u dyscypliny dru¿ynowej, której wynikiem jest suma punktow (tylko skoki)
 
-Twórcy:
-Aleksandra Mêdrek, Marcin Muszalski, Jakub Szarawarski
+
