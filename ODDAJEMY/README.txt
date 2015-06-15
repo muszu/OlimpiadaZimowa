@@ -33,5 +33,5 @@ Funkcje
 - dru_wyniki_bezsk_f(integer id_dysc)  - przyznaje medale i zwraca wyniki fina³u dyscypliny dru¿ynowej, której wynikiem jest suma czasów (bez skoków)
 - skoki_dru_wyniki_f(integer id_dysc) - przyznaje medale i zwraca wyniki fina³u dyscypliny indywidualnej, której wynikiem jest suma punktow (tylko skoki)
 - skoki_ind_wyniki_f(integer id_dysc)  - przyznaje medale i zwraca wyniki fina³u dyscypliny dru¿ynowej, której wynikiem jest suma punktow (tylko skoki)
-
+- odswiez_medale(integer id_dysc) - na nowo przyznaje medale w danej dyscyplinie i usuwa stare - nieaktualne
 
